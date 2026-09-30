@@ -266,3 +266,4 @@ s01-bacinella · s02-culla, -culla-piena, -culla-piena-vomito (da `_vomito`), -c
 - 30/09: S01 completa con gli asset di Caterina (ridimensionati per il web, originali in sorgenti/originali/s01): genitori con tutte le pose (anche mamma-pandeiro → drop → mescola in b1, mamma-oops = confusa), scaffale con i piani misurati, 7 barattoli, ampolla/crepata/liquido, fumetto, nota, neonata. Senza «Ciao» iniziale, sfondo neutro. Strumento sposta solo in locale (js/sposta.js fuori da git).
 - 30/09: S02 senza cartellini CATERINA/MARIA: il certificato con la virgola compare in alto appena nata (b1), alla b3 la virgola cade e resta il certificato senza virgola.
 - 30/09: tutto un terzo più grande (SCALA in main.js: Caterina e oggetti < 60vh; S01 nel CSS) e pavimento dal 12% al 15%.
+- 30/09: judo spostato da S03 b5 a S06 b0 (dopo le medie e Creep); colline di S14 più grandi (64vh); script-presentazione.md con tutte le battute in ordine.

@@ -141,14 +141,6 @@ window.SCENES = [
       /* «Poi alle medie»: cambia subito e cresce 35 → 40vh (resta a x 40%: la lente le arriva alla mano) */
       { id: 'b4', len: 90, text: "Poi alle medie, come se non bastassero occhiali e apparecchio, sognava di fare la restauratrice.",
         move: { img: 's05-cate-medie', h: 40, d: 0.2 } },
-      /* al liceo (abiti normali, 40 → 45vh) corre sul tatami (x 40 → 50%), si cambia nel judogi, cade e si rialza */
-      { id: 'b5', len: 90, text: "Ma, per perdere anche l'altra spalla, si è data al judo.",
-        move: [
-          { img: 's03-cate-liceo', h: 45, d: 0.15 },
-          { x: 50, how: 'corre', d: 0.3 },
-          { at: 0.32, img: 's03-cate-judo' },
-          { at: 0.5, how: 'cade', d: 0.4 },
-        ] },
     ],
     items: [
       { id: 'cavalletto', x: 28, h: 22, r: 0.7, in: 'b1 entra-sx', out: 'b2 esce-sx' },
@@ -156,9 +148,8 @@ window.SCENES = [
       { id: 'testa-gigante', x: 72, h: 40, r: 0.9, in: 'b2 spunta', out: 'b3 esce-dx' },
       { id: 'nastro', x: 40, y: 50, h: 15, r: 1, in: 'b3 sfuma', out: { b: 'b4', fx: 'sfuma', at: 0, d: 0.15 } },
       /* su «restauratrice» (fine della frase); escono all'inizio della b5 (l'uscita di default cadrebbe sopra l'entrata) */
-      { id: 'lente', x: 48, y: 45, h: 12, r: 2002 / 919, z: 35, in: { b: 'b4', fx: 'spunta', at: 0.7, d: 0.12 }, out: { b: 'b5', fx: 'esce-dx', at: 0, d: 0.2 } },
-      { id: 'quadro-antico', x: 72, y: 50, h: 25, r: 0.8, in: { b: 'b4', fx: 'entra-dx', at: 0.75, d: 0.2 }, out: { b: 'b5', fx: 'esce-dx', at: 0, d: 0.2 } },
-      { id: 'tatami', x: 50, w: 40, h: 6, in: 'b5 spunta', cambio: 'esce-basso' },
+      { id: 'lente', x: 48, y: 45, h: 12, r: 2002 / 919, z: 35, in: { b: 'b4', fx: 'spunta', at: 0.7, d: 0.12 }, cambio: 'esce-dx' },
+      { id: 'quadro-antico', x: 72, y: 50, h: 25, r: 0.8, in: { b: 'b4', fx: 'entra-dx', at: 0.75, d: 0.2 }, cambio: 'esce-dx' },
     ],
   },
 
@@ -209,7 +200,14 @@ window.SCENES = [
   {
     id: 's06', title: 'Le superiori', short: "Le superiori", bg: '#fed728', cateH: 45,
     beats: [
-      { id: 'c', len: 60, move: { x: 40, h: 45, at: 0.3, d: 0.5 } },
+      { id: 'c', len: 60, move: { x: 40, img: 's03-cate-liceo', h: 45, at: 0.3, d: 0.5 } },
+      /* il judo (spostato qui da S03 il 30/09: viene dopo le medie e Creep): corre sul tatami, judogi, cade */
+      { id: 'b0', len: 90, text: "Ma, per perdere anche l'altra spalla, si è data al judo.",
+        move: [
+          { x: 50, how: 'corre', d: 0.3 },
+          { at: 0.32, img: 's03-cate-judo' },
+          { at: 0.5, how: 'cade', d: 0.4 },
+        ] },
       { id: 'b1', len: 90, text: "In prima superiore, una maranza non troppo studiosa.",
         move: { x: 50, img: 's03-cate-liceo', how: 'cammina', d: 0.6 } },
       { id: 'b2', len: 90, text: "E, per non farsi mancare ulteriore bullismo: teatro e coro della scuola.",
@@ -219,6 +217,7 @@ window.SCENES = [
       { id: 'b4', len: 90, text: "…proprio l'anno prima del «tutti promossi», aka Covid." },
     ],
     items: [
+      { id: 'tatami', x: 50, w: 40, h: 6, in: 'b0 spunta', out: 'b1 esce-basso' },
       { id: 'sipario', kind: 'fondale', x: 50, w: 50, h: 60, in: 'b2 scende', out: 'b3 esce-alto' },
       { id: 'leggio-coro', x: 30, h: 22, r: 0.6, in: 'b2 spunta', out: 'b3 esce-basso' },
       { id: 'bulli', kind: 'sagoma', pos: [[12, 'floor'], [88, 'floor']], h: 35, r: 2 / 3,
@@ -505,7 +504,7 @@ window.SCENES = [
       { id: 'bici', x: 82, h: 18, r: 1.5, in: { b: 'b2', fx: 'sale', at: 0.2, d: 0.3 }, out: 'b4 esce-basso' },
       { id: 'ale', file: 's09-ale', x: 60, h: 55, r: 0.35, fig: true, in: { b: 'b2', fx: 'entra-sx', at: 0.1, d: 0.55 },
         out: { b: 'b4', fx: 'sfuma', at: 0.35, d: 0.03 } },
-      { id: 'prato', kind: 'fondale', x: 50, y: 22.5, w: 100, h: 45, in: { b: 'b4', fx: 'sale', at: 0, d: 0.12 }, cambio: 'esce-basso' },
+      { id: 'prato', kind: 'fondale', x: 50, y: 32, w: 100, h: 64, in: { b: 'b4', fx: 'sale', at: 0, d: 0.12 }, cambio: 'esce-basso' },
       /* b4: di spalle corrono via uno alla volta verso l'orizzonte (Maya, Ale, Caterina): main.js */
       { id: 'maya-spalle', x: 35, h: 18, r: 0.75, fig: true, z: 36, in: 'custom', cambio: 'via' },
       { id: 'ale-spalle', x: 60, h: 55, r: 0.5, fig: true, z: 36, in: 'custom', cambio: 'via' },
