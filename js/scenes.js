@@ -353,7 +353,7 @@ window.SCENES = [
       { id: 'condominio', kind: 'fondale', x: 50, h: 70, r: 1, in: 'b5 sale' },
       { id: 'vicini', kind: 'sagoma', pos: [[40, 70], [60, 70], [40, 48], [60, 48]], h: 10, r: 0.8,
         in: { b: 'b5', fx: 'spunta', at: 0.25, stagger: 0.06 } },
-      { id: 'fumetto-vicini', kind: 'fumetto', label: '«la dogsitter sudamericana»', x: 72, y: 78, h: 14, r: 1.6,
+      { id: 'fumetto-vicini', kind: 'fumetto', label: '«la dogsitter sudamericana»', x: 70, y: 66, h: 14, r: 1.6,
         in: { b: 'b5', fx: 'spunta', at: 0.45 } },
       /* ai suoi piedi, a destra: corrono con lei */
       { id: 'cani', attach: true, pos: [[112, 15]], h: 14, r: 1.25, fig: true, rt: 'corsa', in: { b: 'b5', fx: 'spunta', at: 0.12 } },

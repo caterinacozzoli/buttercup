@@ -1426,3 +1426,24 @@ html.is-deep { overflow: hidden; }
 .s01-vaso[data-i18n-label="s01-barattolo-bunda"]    { bottom: calc(43.6% - 0.7vh); left: calc(45% - 8vh * 403 / 600 / 2); }
 .s01-vaso[data-i18n-label="s01-barattolo-allergie"] { left: 30%; }
 .s01-vaso[data-i18n-label="s01-barattolo-altezza"]  { right: 30%; }
+
+/* ── 30/09: tutto un terzo più grande e un pelo più su (pavimento al 15%) ── */
+[data-layer="s01"] {
+  --floor: 15%;
+  --parent-h: min(73vh, 800px);
+  --parent-w: calc(var(--parent-h) * 939 / 1400);
+}
+.s01-papa  { left: calc(33% - var(--parent-w) / 2); }
+.s01-mamma { left: calc(72% - var(--parent-w) / 2); }
+.s01-bacinella-area { height: 48.8vh; bottom: calc(var(--floor) - 3.92vh); }
+.s01-scaffale-area { height: 68vh; left: max(0.5vw, calc(9% - 22.8vh)); }
+.s01-vaso { height: 10.5vh; }
+.s01-vaso.s01-fratello { height: 15vh; bottom: calc(87.5% - 2.9vh); }
+.s01-vaso[data-i18n-label="s01-barattolo-bunda"] { left: calc(45% - 10.5vh * 403 / 600 / 2); }
+.s01-ampolla-wrapper { height: 22vh; }
+.s01-fumetto { height: 24vh; }
+.s01-fumetto-1 { left: calc(38% - 12vh); bottom: calc(66% - 12vh); }
+.s01-fumetto-2 { left: calc(66% - 12vh); bottom: calc(66% - 12vh); }
+.s01-pandeiro { height: 16vh; }
+.s01-nota { height: 8vh !important; }
+

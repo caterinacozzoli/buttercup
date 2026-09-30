@@ -10,7 +10,8 @@
   'use strict';
 
   var SCENES   = window.SCENES;
-  var FLOOR    = 12;            /* pavimento: % dal fondo */
+  var FLOOR    = 15;            /* pavimento: % dal fondo (alzato dal 12% il 30/09) */
+  var SCALA    = 4 / 3;         /* 30/09: personaggi e oggetti un terzo più grandi (Caterina e oggetti < 60vh) */
   var CATE_BOX = 50;            /* il box di Caterina è alto 50vh, poi scalato a h/50 */
   var PALETTE  = ['#7a35ee', '#d4cdff', '#fed728', '#ffeba2', '#ff5f6d'];
   var Z = { fondale: 10, sagoma: 15, clic: 25, front: 35, fumetto: 40, testo: 40, bottone: 60, approfondimento: 60 };
@@ -339,7 +340,7 @@
   gsap.set(Object.keys(cateVars).map(function (k) { return cateVars[k]; }), { autoAlpha: 0 });
 
   function cateBottom(y, h) { return y === 'floor' ? FLOOR : y - h / 2; }
-  function cateCss(s) { return { '--cx': s.x, '--cb': cateBottom(s.y, s.h), '--cs': s.h / CATE_BOX }; }
+  function cateCss(s) { return { '--cx': s.x, '--cb': cateBottom(s.y, s.h * SCALA), '--cs': s.h * SCALA / CATE_BOX }; }
 
   gsap.set(cate, Object.assign(cateCss(C), { autoAlpha: 0 }));
   gsap.set([cateHow, cateFig], { transformOrigin: '50% 100%' });
@@ -495,16 +496,20 @@
 
   function place(root, it, p, sc) {
     var k = it.attach ? CATE_BOX / (sc.cateH || CATE_BOX) : 1;   /* dentro Caterina: compensa la sua scala */
-    var H = it.h * k;
+    /* un terzo più grandi, tranne fondali e oggetti a tutto schermo, quelli attaccati a Caterina (crescono con lei)
+       e i bottoni dell'interfaccia */
+    var sz = (it.attach || it.w || it.kind === 'fondale' || it.kind === 'approfondimento' || it.h >= 60) ? 1 : SCALA;
+    var H = it.h * k * sz;
     var W = it.w ? it.w + 'vw' : (H * (it.r || 1)).toFixed(2) + 'vh';
-    var dx = p.dx || it.dx;
+    function sv(v) { return v && /vh$/.test(v) ? (parseFloat(v) * sz).toFixed(2) + 'vh' : v; }   /* scostamenti in scala */
+    var dx = sv(p.dx || it.dx), dy = sv(it.dy);
     root.style.height = H.toFixed(2) + 'vh';
     root.style.width = W;
     root.style.left = 'calc(' + p.x + '% - ' + W + ' / 2' + (dx ? ' + ' + dx : '') + ')';
     var y = p.y == null ? 'floor' : p.y;
     if (y === 'top') root.style.top = '0';
     else if (y === 'floor') root.style.bottom = it.attach ? '0' : FLOOR + '%';
-    else root.style.bottom = 'calc(' + y + '% - ' + (H / 2).toFixed(2) + 'vh' + (it.dy ? ' + ' + it.dy : '') + ')';
+    else root.style.bottom = 'calc(' + y + '% - ' + (H / 2).toFixed(2) + 'vh' + (dy ? ' + ' + dy : '') + ')';
   }
 
   function makeNode(sc, it, p, i, file) {
