@@ -1365,3 +1365,5 @@ html.is-deep { overflow: hidden; }
   font-size: clamp(1rem, 3vh, 1.55rem);
   font-weight: 600;
 }
+/* l'avviso audio sta in alto (in basso ci sono i sottotitoli) */
+.audio-unlock { top: calc(var(--bar-h) + 70px) !important; bottom: auto !important; }
