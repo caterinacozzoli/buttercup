@@ -104,19 +104,17 @@ window.SCENES = [
         out: { b: 'b2', fx: 'sfuma', at: 0.3, d: 0.08 } },
       { id: 'culla-piena-vomito', x: 40, h: 22, r: 340 / 507, z: 35, in: { b: 'b2', fx: 'sfuma', at: 0.3, d: 0.08 },
         out: { b: 'b6', fx: 'esce-basso', at: 0, d: 0.25 } },
-      { id: 'cartellino-caterina', label: 'CATERINA', x: 40, y: 45, h: 7, r: 2.6, in: 'b1 cade' },
-      { id: 'cartellino-maria', label: 'MARIA', x: 40, dx: '15.4vh', y: 45, h: 7, r: 1.8, in: 'b2 entra-dx' },
-      /* certificato (x 60%, al 60%, 30vh): con virgola, poi senza (stessa tela). Proporzioni da misurare. */
-      { id: 'certificato-virgola', x: 60, y: 60, h: 30, r: 600 / 403, z: 22, in: { b: 'b3', fx: 'spunta', at: 0.25, d: 0.15 },
+      /* certificato sopra la scena (x 50%, al 68%, 30vh): con la virgola appena nata (b1), alla b3 senza (stessa tela) */
+      { id: 'certificato-virgola', x: 50, y: 68, h: 30, r: 600 / 403, z: 22, in: { b: 'b1', fx: 'spunta', at: 0, d: 0.2 },
         out: { b: 'b3', fx: 'sfuma', at: 0.5, d: 0.01 },
         testo: 'Caterina Maria, Cozzoli — nata a Milano alle ore 14:15 il 20/08/2002' },
-      { id: 'certificato-no-virgola', x: 60, y: 60, h: 30, r: 600 / 403, z: 22, in: { b: 'b3', fx: 'sfuma', at: 0.5, d: 0.01 },
+      { id: 'certificato-no-virgola', x: 50, y: 68, h: 30, r: 600 / 403, z: 22, in: { b: 'b3', fx: 'sfuma', at: 0.5, d: 0.01 },
         out: { b: 'b6', fx: 'esce-dx', at: 0, d: 0.25 } },
       /* la virgola sopra quella del certificato. Misurata confrontando i due certificati (600×403 px):
          inchiostro a x 347–351, y 146–157 → centro 49.5 px a destra e 49.5 px sopra il centro, alta 12 px.
          Con il certificato a 30vh: 1 px = 30/403 vh → dx = dy = 3.68vh. In s02-virgola.png (60×107) l'inchiostro
          è alto 76 px: tela = 12 × 107/76 = 16.9 px del certificato → 1.26vh. */
-      { id: 'virgola', x: 60, y: 60, dx: '3.68vh', dy: '3.68vh', h: 1.26, r: 60 / 107, z: 23, in: 'custom', label: ',', labelSeManca: true,
+      { id: 'virgola', x: 50, y: 68, dx: '3.68vh', dy: '3.68vh', h: 1.26, r: 60 / 107, z: 23, in: 'custom', label: ',', labelSeManca: true,
         out: { b: 'b3', fx: 'vola-dx', at: 0.82, d: 0.15 } },
       { id: 'fumetto', kind: 'fumetto', file: 's01-fumetto', label: "Scusi, è un po' lungo da scrivere", x: 78, y: 78, h: 14, r: 1.6,
         in: 'b5 entra-dx', out: { b: 'b6', fx: 'esce-dx', at: 0, d: 0.25 } },

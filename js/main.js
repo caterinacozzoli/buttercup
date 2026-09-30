@@ -914,16 +914,13 @@
       var culla = N('culla-piena-vomito')[0].c;
       tl.to(culla, { y: '-1.2vh', rotation: -3, transformOrigin: '50% 100%', duration: D('b2', 0.05), ease: 'power2.out' }, T('b2', 0.3));
       tl.to(culla, { y: '0vh', rotation: 0, duration: D('b2', 0.1), ease: 'bounce.out' }, T('b2', 0.35));
-      /* b3: i cartellini volano dentro il certificato (x 60%, al 60%) */
-      tl.to([N('cartellino-caterina')[0].tl, N('cartellino-maria')[0].tl],
-        { x: '20vw', y: '-15vh', scale: 0.2, autoAlpha: 0, duration: D('b3', 0.25), ease: 'power2.in' }, T('b3', 0.05));
       /* la virgola: compare col certificato, si stacca (il certificato passa a no-virgola), cade a terra, poi vola via (out) */
       var v = N('virgola')[0].tl;
       /* compare quando il certificato ha finito di spuntare (prima la scala lo sposterebbe dal suo punto) */
-      tl.fromTo(v, { autoAlpha: 0 }, { autoAlpha: 1, duration: D('b3', 0.01), ease: 'none', immediateRender: false }, T('b3', 0.41));
-      /* cade fino al pavimento: dal centro al 60% + 3.68vh fino al 12% + mezza virgola */
-      tl.to(v, { y: '51.2vh', rotation: 200, duration: D('b3', 0.17), ease: 'power2.in' }, T('b3', 0.5));
-      tl.to(v, { y: '50vh', duration: D('b3', 0.04), ease: 'sine.out', yoyo: true, repeat: 1 }, T('b3', 0.67));
+      tl.fromTo(v, { autoAlpha: 0 }, { autoAlpha: 1, duration: D('b1', 0.01), ease: 'none', immediateRender: false }, T('b1', 0.22));
+      /* cade fino al pavimento: dal centro al 68% + 3.68vh fino al 12% + mezza virgola */
+      tl.to(v, { y: '59vh', rotation: 200, duration: D('b3', 0.17), ease: 'power2.in' }, T('b3', 0.5));
+      tl.to(v, { y: '57.8vh', duration: D('b3', 0.04), ease: 'sine.out', yoyo: true, repeat: 1 }, T('b3', 0.67));
       /* b4: il certificato cresce 30 → 38vh */
       tl.to(N('certificato-no-virgola')[0].tl, { scale: 38 / 30, duration: D('b4', 0.6), ease: 'power1.inOut' }, T('b4', 0));
     },
