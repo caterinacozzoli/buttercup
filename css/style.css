@@ -1345,3 +1345,23 @@ html.is-deep { overflow: hidden; }
 }
 
 .progress__mark.is-right .progress__tab { --y0: -14px; }
+
+/* S01: le etichette dei barattoli sono già disegnate negli asset → niente scritta sopra
+   (il nome resta per gli screen reader: aria-label dei bottoni e dei role="img") */
+.s01-vaso__label { display: none; }
+
+/* Sottotitoli per la presentazione dal vivo (niente voce registrata): banner nero, testo bianco più grande */
+.subtitle-bar:not(.is-bugiardino) {
+  max-width: min(90vw, 70ch);
+  padding: 0.5em 1.4em;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.88);
+  box-shadow: 0 0.4vh 1.2vh rgba(0, 0, 0, 0.35);
+}
+.subtitle-bar:not(.is-bugiardino)::after { display: none; }
+.subtitle-bar:not(.is-bugiardino) .subtitle-text {
+  color: #fff;
+  font-size: clamp(1rem, 3vh, 1.55rem);
+  font-weight: 600;
+}
