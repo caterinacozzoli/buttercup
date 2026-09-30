@@ -99,7 +99,7 @@ window.SCENES = [
     ],
     items: [
       /* tre culle sulla stessa tela: si sostituiscono senza salti */
-      { id: 'culla', x: 40, h: 22, r: 340 / 507, z: 35, in: 'c spunta', out: { b: 'c', fx: 'sfuma', at: 0.85, d: 0.1 } },
+      { id: 'culla', x: 40, h: 22, r: 340 / 507, z: 35, in: { b: 'c', fx: 'spunta', at: 0.55, d: 0.15 },   /* dopo che la scena 1 è caduta */ out: { b: 'c', fx: 'sfuma', at: 0.85, d: 0.1 } },
       { id: 'culla-piena', x: 40, h: 22, r: 340 / 507, z: 35, in: { b: 'c', fx: 'sfuma', at: 0.85, d: 0.1 },
         out: { b: 'b2', fx: 'sfuma', at: 0.3, d: 0.08 } },
       { id: 'culla-piena-vomito', x: 40, h: 22, r: 340 / 507, z: 35, in: { b: 'b2', fx: 'sfuma', at: 0.3, d: 0.08 },
