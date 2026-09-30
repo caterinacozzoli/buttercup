@@ -730,10 +730,10 @@
     sc.beats.forEach(function (b) { tl.addLabel(b.id, sc.labels[b.id]); });
     tl.set({}, {}, sc.total);          /* la timeline dura esattamente quanto lo scroll */
 
-    /* elementi (+ approfondimento da S02 a S16) */
+    /* elementi (+ approfondimento da S02 a S16; S00 «Ciao» tolto il 30/09) */
     var items = (sc.items || []).slice();
     var first = sc.beats[0].id === 'c' ? sc.beats[1].id : sc.beats[0].id;
-    if (k >= 2) items.push({ id: 'approfondimento', kind: 'approfondimento', x: 5, y: 9, h: 9, r: 1, in: first + ' spunta' });
+    if (sc.id !== 's01') items.push({ id: 'approfondimento', kind: 'approfondimento', x: 5, y: 9, h: 9, r: 1, in: first + ' spunta' });
     items.forEach(function (it) { buildItem(sc, it, tl, T, D); });
 
     /* cambio scena: la scena prima cade giù, lo sfondo sfuma */
@@ -1474,7 +1474,7 @@
     if (sc.noMark) return;
     var b = el('button', 'progress__mark', marks);
     b.type = 'button';
-    b.dataset.n = k;
+    b.dataset.n = k + 1;                          /* scene numerate da 1 (S00 tolto) */
     b.addEventListener('click', function () { scrollToY(jumpTarget(sc), 2); });
     /* post-it: in hover/focus scende e mostra il titolo breve */
     i18nNodes.push({ el: el('span', 'progress__tab', b), key: sc.id + '-breve', it: sc.short || sc.title });

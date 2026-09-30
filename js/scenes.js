@@ -53,20 +53,6 @@
 
 window.SCENES = [
 
-  /* ── S00 — Titolo ─────────────────────────────────────── */
-  {
-    id: 's00', title: 'Titolo', bg: '#fcfbfa', bgZ: 45, noMark: true,
-    bgOut: { b: 'uscita', at: 0.35, d: 0.5 },
-    beats: [
-      { id: 'inizio', len: 40 },
-      { id: 'uscita', len: 60 },
-    ],
-    items: [
-      { id: 'cartello', file: null, label: 'Ciao', x: 50, y: 55, h: 30, r: 1.4, z: 46, rt: 'oscilla',
-        out: { b: 'uscita', fx: 'vola-via', at: 0, d: 0.6 } },
-    ],
-  },
-
   /* ── S01 — La ricetta (HTML in index.html, animazione in main.js) ── */
   {
     id: 's01', title: 'La ricetta', short: "La ricetta", cateH: 18,
@@ -86,8 +72,10 @@ window.SCENES = [
     /* gesti a fotogrammi (sistema unico, vedi main.js): per ora frames 0 = immagini ferme */
     anims: [
       { file: 's01-papa-grana',    frames: 0, fps: 6, da: 'b2', a: 'b4' },   /* grattugia il grana */
+      /* dall'apertura le sagome mescolano già la pentola (niente più titolo «Ciao») */
+      { file: 's01-papa-mescola',  frames: 0, fps: 6, da: 'b0', a: 'b2' },
       { file: 's01-papa-mescola',  frames: 0, fps: 6, da: 'b4', a: 'b6' },   /* alla b6 passa a oops */
-      { file: 's01-mamma-mescola', frames: 0, fps: 6, da: 'b4', a: 'b7', fermo: 1 },   /* alla b7 si ferma sul fotogramma 1 */
+      { file: 's01-mamma-mescola', frames: 0, fps: 6, da: 'b0', a: 'b7', fermo: 1 },   /* alla b7 si ferma sul fotogramma 1 */
       { file: 's01-bacinella',     frames: 0, fps: 8, da: 'b0', a: null },   /* brodaglia, fumo e bolle: tutta la scena */
     ],
   },

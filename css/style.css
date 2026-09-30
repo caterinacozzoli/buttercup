@@ -1367,3 +1367,10 @@ html.is-deep { overflow: hidden; }
 }
 /* l'avviso audio sta in alto (in basso ci sono i sottotitoli) */
 .audio-unlock { top: calc(var(--bar-h) + 70px) !important; bottom: auto !important; }
+
+/* S01 sfondo neutro (niente più viola e giallo con lo strappo): carta chiara */
+.s01-bg__viola, .s01-bg__giallo { background: var(--c-carta); }
+.s01-bg__foglio, .s01-bg__anima { display: none; }
+
+/* S01: l'etichetta dell'ampolla solo se c'è l'ampolla vera */
+.s01-ampolla-wrapper:not(:has(.s01-ampolla-glass.is-loaded)) .s01-ampolla-label { display: none; }
