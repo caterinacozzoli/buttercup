@@ -1413,3 +1413,9 @@ html.is-deep { overflow: hidden; }
 .s01-fumetto-1 { left: calc(36% - 9vh); }
 .s01-fumetto-2 { left: calc(64% - 9vh); }
 .s01-fumetto-text { white-space: normal; width: 70%; text-align: center; font-size: clamp(0.7rem, 2vh, 1.1rem); line-height: 1.05; }
+/* barattoli dei fratelli (con le teste) e ampolla dei traumi 2/3 più grandi: i fratelli, troppo alti per
+   lo scomparto, stanno sul tetto dello scaffale (bordo superiore a y 175/1400 → 87.5% da sotto) */
+.s01-vaso.s01-fratello { height: calc(8vh * 5 / 3); bottom: calc(87.5% - 1.2vh); }
+.s01-vaso.s01-fratello.s01-sx { left: 12%; }
+.s01-vaso.s01-fratello.s01-dx { right: 12%; }
+.s01-ampolla-wrapper { height: calc(11vh * 5 / 3); }
