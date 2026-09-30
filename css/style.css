@@ -1,0 +1,1347 @@
+/* ==========================================================
+   style.css — Buttercup
+   ========================================================== */
+
+/* ── Fonts ────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Chunko';
+  src: url('../assets/fonts/Chunko-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Custom properties ───────────────────────────────────── */
+:root {
+  --c-viola:        #7a35ee;
+  --c-lavanda:      #d4cdff;
+  --c-giallo:       #fed728;
+  --c-giallo-chiaro:#ffeba2;
+  --c-carta:        #fcfbfa;
+  --c-inchiostro:   #212529;
+  --c-corallo:      #ff5f6d;
+
+  --ff-display:     'Chunko', 'Arial Black', sans-serif;
+
+  --bar-h:          clamp(14px, 1.8vh, 20px);   /* barra di avanzamento */
+  --attivo:         var(--c-giallo);            /* unico colore di "attivo": sempre con bordo inchiostro */
+  --tex:            url('../assets/img/tex/tex-carta.jpg');
+  --ff-body:        'Onest', system-ui, sans-serif;
+}
+
+/* ── Reset & base ────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--ff-body);
+  color: var(--c-inchiostro);
+  background: var(--c-carta);
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+/* ── Controls (subito sotto la barra di avanzamento) ─────── */
+/* Bigliettino di carta: resta leggibile su ogni sfondo di scena */
+.controls {
+  position: fixed;
+  top: calc(var(--bar-h) + 48px);           /* sotto i post-it che pendono dalla barra (fino a 44px) */
+  right: 1rem;
+  z-index: 1000;
+  /* due righe: la lingua a sinistra, alta quanto le due righe; le quattro levette in colonna a coppie */
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-areas: "lang sub voce" "lang mus calma";
+  align-items: center;
+  column-gap: 0.15rem;
+  padding: 0.15rem 0.35rem;
+  background: var(--c-carta);
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(33, 37, 41, 0.25);
+  font-family: var(--ff-body);
+  color: var(--c-inchiostro);
+}
+.controls .lang   { grid-area: lang; }
+#btn-subtitles    { grid-area: sub; }
+#btn-voice        { grid-area: voce; }
+#btn-music        { grid-area: mus; }
+#btn-calm         { grid-area: calma; }
+.controls .switch { min-height: 36px; justify-content: space-between; }   /* levette allineate in colonna */
+.controls::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: url('../assets/img/tex/tex-carta.jpg') center / cover;
+  mix-blend-mode: multiply;
+  opacity: 0.35;
+  pointer-events: none;
+}
+.controls > * { position: relative; z-index: 1; }
+@media (max-width: 680px) {
+  .controls { right: 0.5rem; padding: 0.1rem 0.25rem; }
+  .controls .switch { padding: 0 0.4rem; gap: 0.35rem; font-size: 0.9rem; }
+}
+
+/* Lingua: segmento compatto alto come le levette; area cliccabile estesa a 44px */
+.lang {
+  display: flex;
+  margin-right: 0.35rem;
+  border: 2px solid var(--c-inchiostro);
+  border-radius: 6px;
+}
+.lang__btn {
+  position: relative;
+  min-width: 2.4rem;
+  height: 1.6rem;
+  border: 0;
+  background: transparent;
+  font: 700 0.8rem/1 var(--ff-body);
+  letter-spacing: 0.06em;
+  color: var(--c-inchiostro);
+  cursor: pointer;
+}
+.lang__btn::after { content: ''; position: absolute; inset: -9px 0; }
+.lang__btn:first-child { border-radius: 4px 0 0 4px; }
+.lang__btn:last-child  { border-radius: 0 4px 4px 0; }
+.lang__btn + .lang__btn { border-left: 2px solid var(--c-inchiostro); }
+.lang__btn[aria-pressed="true"] { background: var(--attivo); }
+.lang__btn:not([aria-pressed="true"]):hover { background: var(--c-giallo-chiaro); }
+
+/* Interruttore: etichetta + levetta di carta; lo stato si legge dalla posizione, non solo dal colore */
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 0.55rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  font: 500 0.95rem/1 var(--ff-body);
+  color: var(--c-inchiostro);
+  cursor: pointer;
+}
+.switch[hidden] { display: none; }
+.switch__track {
+  position: relative;
+  flex: none;
+  width: 2.2rem;
+  height: 1.25rem;
+  border: 2px solid var(--c-inchiostro);
+  border-radius: 0.35rem;
+  background: var(--c-carta);
+  transition: background 0.2s;
+}
+.switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(1.25rem - 8px);
+  height: calc(1.25rem - 8px);
+  border-radius: 2px;
+  background: var(--c-inchiostro);
+  transition: transform 0.2s;
+}
+.switch[aria-checked="true"] .switch__track { background: var(--attivo); }
+.switch[aria-checked="true"] .switch__thumb { transform: translateX(0.95rem); }
+.switch:hover .switch__track { box-shadow: 0 0 0 3px var(--c-giallo-chiaro); }
+
+/* Focus a due toni: si vede anche sugli sfondi viola */
+.switch:focus-visible,
+.lang__btn:focus-visible,
+.s01-fratello:focus-visible,
+.clic-btn:focus-visible,
+.girami__chiudi:focus-visible,
+.paper-btn:focus-visible,
+.progress__mark:focus-visible .progress__tab,
+.deep__close:focus-visible {
+  outline: 3px solid var(--c-inchiostro);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 8px var(--c-carta);
+}
+
+/* ── Subtitle bar: sotto il pavimento, entro l'11% più basso ── */
+.subtitle-bar {
+  position: fixed;
+  bottom: 1.2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  min-width: 280px;
+  max-width: 76vw;
+  padding: 0.35em 1.2em;
+  background: var(--c-carta);
+  border: 2px solid var(--c-inchiostro);
+  border-radius: 8px;
+  box-shadow: 3px 3px 0 rgba(0,0,0,.1);
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s;
+}
+
+.subtitle-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: url('../assets/img/tex/tex-carta.jpg') center / cover;
+  mix-blend-mode: multiply;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.subtitle-bar.visible {
+  opacity: 1;
+}
+
+.subtitle-head { display: none; }
+/* S13: il sottotitolo diventa un bugiardino (foglio bianco stretto, testo piccolo con le grazie) */
+.subtitle-bar.is-bugiardino {
+  max-width: min(42ch, 90vw);
+  padding: 0.5em 1em 0.6em;
+  border: 1px solid #9aa0a6;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 0.4vh 1vh rgba(33, 37, 41, 0.2);
+  text-align: left;
+  animation: srotola 0.5s ease-out;
+}
+.subtitle-bar.is-bugiardino::after { display: none; }
+.is-bugiardino .subtitle-head {
+  display: block;
+  margin-bottom: 0.35em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #c8ccd0;
+  font: 700 0.62rem/1.2 Georgia, 'Times New Roman', serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #3c4043;
+}
+.is-bugiardino .subtitle-text { font: 400 0.82rem/1.35 Georgia, 'Times New Roman', serif; }
+@keyframes srotola { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+
+.subtitle-bar.hidden-pref {
+  display: none;
+}
+
+.subtitle-text {
+  font-family: var(--ff-body);
+  font-size: clamp(0.85rem, 2.4vh, 1.2rem);
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--c-inchiostro);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Audio unlock notice ─────────────────────────────────── */
+.audio-unlock {
+  position: fixed;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 950;
+  font-family: var(--ff-body);
+  font-size: 0.8rem;
+  color: var(--c-inchiostro);
+  background: var(--c-giallo-chiaro);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--c-inchiostro);
+  opacity: 0.9;
+  cursor: pointer;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.audio-unlock.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* ── Telefono in verticale: cartellino «Girami» (chiudibile) ── */
+.girami { display: none; }
+@media (orientation: portrait) and (max-width: 600px) {
+  .girami:not(.is-chiuso) {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(33, 37, 41, 0.55);
+  }
+}
+.girami__txt {
+  position: relative;
+  padding: 1.2rem 2.4rem;
+  border-radius: 6px;
+  background: var(--tex) center / 160px, var(--c-giallo);
+  background-blend-mode: multiply;
+  box-shadow: 0 0.6rem 1.4rem rgba(33, 37, 41, 0.35);
+  font: 700 2.2rem/1 var(--ff-display);
+  color: var(--c-inchiostro);
+  rotate: -4deg;
+}
+.girami__chiudi {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--c-inchiostro);
+  border-radius: 50%;
+  background: var(--c-carta);
+  font: 700 1.5rem/1 var(--ff-display);
+  color: var(--c-inchiostro);
+  cursor: pointer;
+}
+
+/* ── Tracce di scroll: invisibili, l'altezza la mette main.js ── */
+.scene { position: relative; width: 100%; }
+
+/* ── Palco fisso ─────────────────────────────────────────── */
+/* Gli strati (.layer) NON hanno z-index né transform: così gli z degli
+   elementi di ogni scena si confrontano direttamente con quello di Caterina. */
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bgs, .bg, .layer { position: absolute; inset: 0; }
+
+.bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/img/tex/tex-carta.jpg') center / cover;
+  mix-blend-mode: multiply;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.bg[data-bg="s01"]::after { display: none; }   /* s01 ha la sua texture per livello */
+
+/* ── Caterina (contenitore globale) ──────────────────────── */
+/* Box 50vh; posizione e scala con le proprietà individuali translate/scale
+   guidate da variabili che anima la timeline (--cx %, --cb vh dal fondo, --cs). */
+.character {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 50vh;
+  aspect-ratio: 2 / 3;
+  z-index: 30;
+  --cx: 50;
+  --cb: 12;
+  --cs: 1;
+  translate: calc(var(--cx) * 1vw - 50%) calc(var(--cb) * -1vh);
+  scale: var(--cs);
+  transform-origin: 50% 100%;
+  will-change: translate, scale;
+}
+.cate__how, .cate__rt, .cate__fig, .cate__attach { position: absolute; inset: 0; }
+
+/* ── Elementi generati da scenes.js ──────────────────────── */
+/* .item posizione · __x cambio scena · __tl timeline · __rt tempo reale · __c contenuto */
+.item { position: absolute; }
+.item__x, .item__tl, .item__rt, .item__c { position: absolute; inset: 0; }
+
+.item__c {
+  container-type: size;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.item__c > .scene-img { position: absolute; inset: 0; }   /* la scritta resta centrata sopra */
+.item__c.img-wrap { position: absolute; }   /* .img-wrap (più sotto) lo renderebbe relative e l'elemento si schiaccerebbe */
+
+/* Cartoncino HTML (file: null) */
+.card {
+  background: var(--c-carta);
+  border-radius: 0.8vh;
+  box-shadow: 0 0.4vh 1.2vh rgba(33, 37, 41, 0.28);
+  overflow: hidden;
+}
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/img/tex/tex-carta.jpg') center / cover;
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.item__label {
+  position: relative;
+  z-index: 2;
+  max-width: 88%;
+  font-family: var(--ff-display);
+  line-height: 1.1;
+  text-align: center;
+  color: var(--c-inchiostro);
+  pointer-events: none;
+}
+.item__label.is-1line { white-space: nowrap; }
+/* scritta sopra un segnaposto: fondino carta per leggerla */
+/* Il fondino di carta serve solo sopra il segnaposto: con l'immagine vera (il supporto vuoto) il testo
+   sta direttamente sopra. Con labelSeManca (es. la virgola) la scritta sparisce proprio. */
+.img-wrap:not(.is-loaded) > .item__label {
+  background: rgba(252, 251, 250, 0.88);
+  padding: 0.1em 0.35em;
+  border-radius: 0.3em;
+}
+.has-label .img-wrap .placeholder { align-items: flex-start; }
+.label-se-manca .img-wrap.is-loaded > .item__label { display: none; }
+
+.is-round .placeholder, .is-round .card { border-radius: 50%; }
+.is-frame .placeholder {
+  background: transparent !important;
+  border: 1.4vh solid var(--c-lavanda);
+  color: var(--c-inchiostro);
+  align-items: flex-start;
+}
+.is-sagoma .scene-img { filter: brightness(0); }
+.is-sagoma .placeholder { background: var(--c-inchiostro); color: var(--c-carta); }
+.is-testo .item__label { max-width: none; }
+
+.is-nota .item__label {
+  font-family: var(--ff-body);
+  font-weight: 700;
+  color: var(--c-inchiostro);
+  background: var(--c-carta);
+  border: 2px dashed var(--c-corallo);
+  padding: 0.2em 0.6em;
+  border-radius: 0.3em;
+}
+.is-chiaro .item__label { color: var(--c-carta); text-shadow: 0 0.3vh 0.8vh rgba(33, 37, 41, 0.35); }
+.is-giallo .card { background: var(--c-giallo); }
+.is-flash .placeholder { background: #fff; color: var(--c-inchiostro); border-radius: 50%; }
+/* S13: oggetti cliccabili (puntino di carta che pulsa), sticker (non carta), badge, nero finale */
+.clic-btn {
+  padding: 0;
+  border: 0;
+  border-radius: 0.8vh;
+  background: none;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.clic-dot {
+  position: absolute;
+  top: -0.7vh;
+  right: -0.7vh;
+  width: 1.6vh;
+  height: 1.6vh;
+  border: 2px solid var(--c-inchiostro);
+  border-radius: 50%;
+  background: var(--c-giallo);
+  box-shadow: 0 0.2vh 0.4vh rgba(33, 37, 41, 0.3);
+  animation: clic-pulsa 1.4s ease-in-out infinite;
+}
+@keyframes clic-pulsa { 50% { scale: 1.35; } }
+.is-calm .clic-dot { animation: none; }
+.is-sticker .scene-img { filter: none; }   /* sticker dei loghi: mostrati come sono, niente ombre né carta */
+.is-sticker .placeholder { border-radius: 30%; }
+.is-badge .card { background: var(--c-corallo); box-shadow: none; }
+.is-badge .card::after { display: none; }
+.is-badge .item__label { color: #fff; font-family: var(--ff-body); font-weight: 700; }
+.is-nero .card { background: #000; border-radius: 0; box-shadow: none; }
+.is-nero .card::after { display: none; }
+
+/* S16: video nello schermo del telefono (sotto la cornice di carta, sopra il segnaposto) */
+.s16-video {
+  position: absolute;
+  inset: 9% 6%;                                /* schermo: da allineare all'immagine del telefono */
+  z-index: 2;
+  width: 88%;
+  height: 82%;
+  object-fit: cover;
+  background: #000;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.s16-video:focus-visible { outline: 3px solid var(--c-giallo); outline-offset: -6px; }
+[data-item="s16-telefono-grande"] .scene-img { z-index: 3; }
+/* durante il video scritte, logo e Ricomincia li governa il tempo del video, non lo scroll */
+.video-on .is-finale .item__tl { opacity: 1 !important; visibility: visible !important; transform: none !important; }
+
+.is-goccia .card { background: var(--c-corallo); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; box-shadow: none; }
+
+/* Coriandoli di carta */
+.confetto {
+  position: absolute;
+  width: 1.6vh;
+  border-radius: 2px;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+.confetto::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/img/tex/tex-carta.jpg') center / 80px;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+/* ── Bottoni di carta (Ricomincia, approfondimenti) ──────── */
+.paper-btn {
+  pointer-events: auto;
+  cursor: pointer;
+  border: 2px solid var(--c-inchiostro);
+  font: inherit;
+  color: var(--c-inchiostro);
+}
+.paper-btn.card { box-shadow: 0.3vh 0.4vh 0 rgba(33, 37, 41, 0.35); }
+.paper-btn:hover { background-color: var(--c-giallo-chiaro); }
+
+.is-approfondimento .paper-btn {
+  border-radius: 1vh;
+  overflow: visible;
+  box-shadow: 0.3vh 0.5vh 0.8vh rgba(33, 37, 41, 0.3);
+}
+.is-approfondimento .placeholder { font-size: 0.55rem; }
+.pin {                                       /* la puntina */
+  position: absolute;
+  top: -0.8vh;
+  left: 50%;
+  width: 2vh;
+  height: 2vh;
+  margin-left: -1vh;
+  border-radius: 50%;
+  background: var(--c-corallo);
+  box-shadow: 0 0.3vh 0.5vh rgba(33, 37, 41, 0.4), inset -0.3vh -0.3vh 0 rgba(0, 0, 0, 0.18);
+  z-index: 3;
+}
+
+/* ── Barra di avanzamento ────────────────────────────────── */
+/* Striscia di carta; ogni scena è una linguetta (come i divisori di un quaderno) che pende sotto.
+   Corrente = linguetta più grande, gialla con bordo inchiostro. In hover/focus: cartellino con l'indizio. */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--bar-h);
+  z-index: 1001;                              /* i cartellini passano sopra i controlli */
+  background: var(--c-carta);
+  box-shadow: 0 1px 3px rgba(33, 37, 41, 0.25);
+}
+.progress::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--tex) center / cover;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.progress__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--c-viola);
+  transform-origin: 0 50%;
+}
+.progress__glow {
+  position: absolute;
+  inset: 0;
+  background: var(--c-giallo);
+  box-shadow: 0 0 18px 6px var(--c-giallo);
+  opacity: 0;
+  visibility: hidden;
+}
+.progress__marks { position: absolute; inset: 0; z-index: 1; }
+
+.progress__mark {                            /* area cliccabile: barra + post-it, 28px di larghezza */
+  position: absolute;
+  top: 0;
+  width: 28px;
+  height: calc(var(--bar-h) + 16px);
+  margin-left: -14px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.progress__mark:hover,
+.progress__mark:focus-visible { z-index: 2; }      /* aperto, passa sopra i vicini */
+.progress__mark:focus-visible { outline: none; }  /* il focus si vede sul post-it (regola "Focus a due toni") */
+
+/* Post-it come il segnalibro sul taglio di un libro.
+   Chiuso: pende dalla barra ruotato di −90°, il titolo si legge dal basso verso l'alto e sfuma dentro
+   la barra, come se ne uscisse. Aperto (hover/focus): ruota verso destra fino all'orizzontale, poi si
+   allunga sul titolo intero.
+   Geometria: il box è ancorato con l'estremità sinistra sulla linguetta e ruota attorno a quella;
+   --y0 lo riporta giù così da chiuso la sua estremità destra (sfumata) tocca la barra.
+   Vicino al bordo destro (.is-right) il box è ancorato a destra, pende senza --y0 e si apre verso sinistra. */
+.progress__tab {
+  --th: 18px;                                /* spessore */
+  --len: 34px;                               /* quanto sporge da chiuso */
+  --y0: calc(var(--len) - var(--th));
+  --r1: -3deg;                               /* inclinazione da aperto */
+  position: absolute;
+  top: calc(var(--bar-h) - 3px);
+  left: 50%;
+  margin-left: calc(var(--th) / -2);
+  display: flex;
+  align-items: center;
+  width: max-content;
+  max-width: var(--len);
+  height: var(--th);
+  padding: 0 0.5em 0 0.45em;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 1.5px solid var(--c-inchiostro);
+  border-radius: 3px 0 0 3px;                 /* estremità libera arrotondata, quella nella barra dritta */
+  background:
+    linear-gradient(270deg, rgba(33, 37, 41, 0.08) 0 5px, transparent 5px),   /* striscia adesiva */
+    var(--tex) center / 80px,
+    var(--c-carta);
+  background-blend-mode: normal, multiply, normal;
+  box-shadow: 0 2px 2px rgba(33, 37, 41, 0.2);
+  font: 600 0.7rem/1 var(--ff-body);
+  color: transparent;                        /* da chiuso niente scritta: compare solo aprendosi */
+  -webkit-mask: linear-gradient(90deg, #000 calc(100% - 10px), transparent);   /* sfuma dentro la barra */
+          mask: linear-gradient(90deg, #000 calc(100% - 10px), transparent);
+  transform-origin: calc(var(--th) / 2) calc(var(--th) / 2);
+  rotate: -90deg;
+  translate: 0 var(--y0);
+  transition:
+    max-width 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    margin 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    font-size 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    rotate 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.1s;
+}
+.progress__mark.is-right .progress__tab {
+  --y0: 0px;
+  --r1: 3deg;
+  left: auto;
+  right: 50%;
+  margin-left: 0;
+  margin-right: calc(var(--th) / -2);
+  transform-origin: calc(100% - var(--th) / 2) calc(var(--th) / 2);
+}
+
+.progress__mark[aria-current] .progress__tab {   /* scena corrente: più lunga, gialla, bordo pieno */
+  --th: 20px;
+  --len: 44px;
+  border-width: 2px;
+  background:
+    linear-gradient(270deg, rgba(33, 37, 41, 0.08) 0 5px, transparent 5px),
+    var(--tex) center / 80px,
+    var(--attivo);
+  background-blend-mode: normal, multiply, normal;
+}
+.progress__mark:not([aria-current]):hover .progress__tab,
+.progress__mark:not([aria-current]):focus-visible .progress__tab {
+  background:
+    linear-gradient(270deg, rgba(33, 37, 41, 0.08) 0 5px, transparent 5px),
+    var(--tex) center / 80px,
+    var(--c-giallo-chiaro);
+  background-blend-mode: normal, multiply, normal;
+}
+
+/* Aperto: prima ruota (animazione), poi si allunga (transizioni in ritardo) */
+html:not(.tips-off) .progress__mark:hover .progress__tab,
+html:not(.tips-off) .progress__mark:focus-visible .progress__tab {
+  max-width: 14em;
+  height: 26px;
+  font-size: 0.8rem;
+  color: var(--c-inchiostro);
+  border-radius: 3px;
+  -webkit-mask: none;
+          mask: none;
+  box-shadow: 0 4px 8px rgba(33, 37, 41, 0.28);
+  rotate: var(--r1);
+  translate: 0 7px;
+  animation: tab-sfoglia 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition-delay: 0.26s, 0.26s, 0s, 0.26s, 0s, 0s, 0.18s;   /* la scritta affiora mentre gira */
+  transition-duration: 0.22s, 0.22s, 0.22s, 0.22s, 0.22s, 0.22s, 0.25s;
+}
+
+/* Etichetta-freccia di Caterina (assets/img/ui/ui-etichetta-indizi.png, 1487×521): sostituisce i post-it CSS,
+   chiusi e aperti, con le stesse animazioni. border-image: striscia a sinistra (120 px) e punta a destra
+   (300 px) restano fisse in proporzione all'altezza, solo il centro si allunga col titolo.
+   Le altre sono gialle più chiare; la scena corrente è piena (e più lunga). */
+html.has-ui-etichetta-indizi .progress__tab {
+  --bh: var(--th);
+  border-style: solid;
+  border-color: transparent;
+  border-width: 0 calc(var(--bh) * 300 / 521) 0 calc(var(--bh) * 120 / 521);
+  border-image: url('../assets/img/ui/ui-etichetta-indizi.png') 0 300 0 120 fill / 0 calc(var(--bh) * 300 / 521) 0 calc(var(--bh) * 120 / 521) stretch;
+  border-radius: 0;
+  background: none !important;               /* batte i fondi CSS di corrente/hover */
+  box-shadow: none;
+  padding: 0 0.15em;
+  filter: saturate(0.45) brightness(1.1) drop-shadow(0 1px 1px rgba(33, 37, 41, 0.3));
+}
+html.has-ui-etichetta-indizi .progress__mark[aria-current] .progress__tab,
+html.has-ui-etichetta-indizi .progress__mark:hover .progress__tab,
+html.has-ui-etichetta-indizi .progress__mark:focus-visible .progress__tab {
+  filter: drop-shadow(0 1px 1.5px rgba(33, 37, 41, 0.35));
+}
+html.has-ui-etichetta-indizi:not(.tips-off) .progress__mark:hover .progress__tab,
+html.has-ui-etichetta-indizi:not(.tips-off) .progress__mark:focus-visible .progress__tab {
+  --bh: 26px;
+  border-radius: 0;
+  padding: 0 0.3em 0 0.25em;
+}
+html.has-ui-etichetta-indizi:not(.tips-off) .progress__mark:hover .progress__tab { box-shadow: none; }
+html.has-ui-etichetta-indizi .progress__tab::before { display: none; }   /* niente linguetta sopra la freccia */
+
+/* Etichette in immagine (assets/img/ui): se il file c'è (classe has-… su <html>, la mette main.js)
+   la carta disegnata sostituisce bordo e fondo CSS. Linguetta 1:2, cartellino corto 3:1, lungo 5:1. */
+.has-ui-linguetta .progress__tab::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--th);
+  height: var(--len);
+  translate: -50% -50%;
+  rotate: 90deg;                               /* il post-it è ruotato di −90°: così la linguetta resta dritta */
+  background: url('../assets/img/ui/ui-linguetta.png') center / 100% 100% no-repeat;
+}
+.has-ui-linguetta-attiva .progress__mark[aria-current] .progress__tab::before {
+  background-image: url('../assets/img/ui/ui-linguetta-attiva.png');
+}
+.has-ui-linguetta .progress__tab { border-color: transparent; background: none; box-shadow: none; }
+html:not(.tips-off) .progress__mark:hover .progress__tab::before,
+html:not(.tips-off) .progress__mark:focus-visible .progress__tab::before { opacity: 0; }
+html.has-ui-etichetta-corta:not(.tips-off) .progress__mark:hover .progress__tab:not(.is-lungo),
+html.has-ui-etichetta-corta:not(.tips-off) .progress__mark:focus-visible .progress__tab:not(.is-lungo) {
+  border-color: transparent;
+  box-shadow: none;
+  background: url('../assets/img/ui/ui-etichetta-corta.png') center / 100% 100% no-repeat;
+}
+html.has-ui-etichetta-lunga:not(.tips-off) .progress__mark:hover .progress__tab.is-lungo,
+html.has-ui-etichetta-lunga:not(.tips-off) .progress__mark:focus-visible .progress__tab.is-lungo {
+  border-color: transparent;
+  box-shadow: none;
+  background: url('../assets/img/ui/ui-etichetta-lunga.png') center / 100% 100% no-repeat;
+}
+
+/* 0–30%: resta appeso e scende appena · 30–100%: ruota verso destra fino all'orizzontale */
+@keyframes tab-sfoglia {
+  0%   { rotate: -90deg;   translate: 0 var(--y0); }
+  30%  { rotate: -90deg;   translate: 0 calc(var(--y0) + 3px); }
+  100% { rotate: var(--r1); translate: 0 7px; }
+}
+
+/* Schermi stretti: le linguette sono fitte, restano sottili e senza scritta (il titolo si legge al focus) */
+@media (max-width: 640px) {
+  .controls { top: calc(var(--bar-h) + 28px); }                  /* post-it più corti */
+  /* il bottone approfondimento sale sopra i sottotitoli, che qui vanno su più righe */
+  .item.is-approfondimento { bottom: 17% !important; }
+  .progress__tab { --th: 12px; --len: 16px; }
+  .progress__mark[aria-current] .progress__tab { --th: 14px; --len: 22px; }
+}
+
+/* ── Approfondimento: foglio di carta ────────────────────── */
+html.is-deep { overflow: hidden; }
+.deep {
+  margin: auto;
+  width: 70vw;
+  height: 70vh;
+  max-width: none;
+  max-height: none;
+  padding: 2rem 2.5rem;
+  border: 0;
+  border-radius: 6px;
+  background: var(--c-carta);
+  color: var(--c-inchiostro);
+  box-shadow: 0 1.5vh 5vh rgba(33, 37, 41, 0.4);
+  overflow: hidden;
+}
+.deep[open] { display: flex; flex-direction: column; gap: 1rem; }
+.deep::backdrop { background: rgba(33, 37, 41, 0.55); }
+.deep::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/img/tex/tex-carta.jpg') center / cover;
+  mix-blend-mode: multiply;
+  opacity: 0.4;
+  pointer-events: none;
+}
+.deep__title { font-family: var(--ff-display); font-size: clamp(1.2rem, 3.5vh, 2rem); padding-right: 3rem; }
+.deep__media {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px dashed var(--c-viola);
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: center;
+}
+.deep__caption {
+  font-size: 1rem;
+  line-height: 1.4;
+  text-align: center;
+  text-wrap: pretty;
+}
+.deep__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+  width: 44px;
+  height: 44px;
+  font-family: var(--ff-display);
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--c-inchiostro);
+  background: var(--c-giallo);
+  border: 2px solid var(--c-inchiostro);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* ── Image containers & placeholders ─────────────────────── */
+/* .img-wrap ha le proporzioni (aspect-ratio sul contenitore); img e segnaposto lo riempiono. */
+.img-wrap { position: relative; }
+
+/* Varianti sovrapposte, mai impilate */
+.variant { position: absolute; inset: 0; }
+
+.scene-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.placeholder {
+  box-shadow: inset 0 0 0 2px rgba(33, 37, 41, 0.35);   /* si vede anche sopra uno sfondo dello stesso colore */
+  display: none;                       /* shown via JS on img error */
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 12px;
+  font-family: var(--ff-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #fff;
+  padding: 0.5rem;
+  word-break: break-all;
+  overflow: hidden;
+}
+
+/* Placeholder colour rotation */
+.placeholder--0 { background: var(--c-viola); }
+.placeholder--1 { background: var(--c-corallo); }
+.placeholder--2 { background: var(--c-giallo); color: var(--c-inchiostro); }
+.placeholder--3 { background: var(--c-lavanda); color: var(--c-inchiostro); }
+.placeholder--4 { background: var(--c-inchiostro); }
+
+/* ================================================================
+   SCENE 01 — La Ricetta
+   ================================================================ */
+
+[data-layer="s01"] {
+  --floor: 12%;                               /* linea del pavimento */
+  --parent-h: min(55vh, 600px);               /* personaggi dimensionati in altezza */
+  --parent-w: calc(var(--parent-h) * 2 / 3);
+}
+
+/* ── Background ──────────────────────────────────────────── */
+.s01-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.s01-bg__viola,
+.s01-bg__foglio,
+.s01-bg__anima,
+.s01-bg__giallo {
+  position: absolute;
+  inset: 0;
+}
+
+.s01-bg__viola  { background: var(--c-viola); }
+
+/* Foglio giallo appoggiato sul viola: ombra morbida dell'intero foglio */
+.s01-bg__foglio { filter: drop-shadow(-5px 3px 8px rgba(33, 37, 41, 0.35)); }
+
+/* Bordo strappato: path generato una volta con seed fisso (80+ punti, irregolare).
+   ponytail: path statico; rigenerarlo solo se cambia il disegno del bordo. */
+.s01-bg__giallo {
+  background: var(--c-giallo);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M100 0L49.74 0L49.73 1.36L49.2 2.13L49.37 3.36L48.47 4.93L47.66 6.19L48.04 7.42L47.83 8.08L47.46 9.47L47.05 10.6L47.76 12.06L47.48 13.16L48.6 14.3L48.52 15.58L48.25 16.43L48.49 17.93L48.76 19.11L48.49 20.48L49 21.61L49.37 22.37L49.8 23.5L49.99 24.86L50.42 26.36L50.47 27.3L50.62 28.62L50.31 29.54L49.97 30.9L50 32L50.12 33.04L49.88 34.68L49.77 35.96L49.65 36.75L49.84 38.14L50.83 39.58L50.65 40.58L50.65 41.44L51.1 42.97L51.42 43.96L51.59 45.43L52.01 46.5L51.39 47.53L51.97 48.87L52.45 49.87L52.87 51.42L53.87 52.48L53.11 53.59L52.87 55.08L52.58 55.65L52.17 56.96L51.71 58.42L51.16 59.64L50.73 60.76L50.61 61.64L50.55 62.76L49.09 64.02L49.3 65.38L49.48 66.88L49.54 68.21L49.75 68.71L49.69 70.47L49.88 71.63L50.07 72.88L50.27 73.54L50.11 75.16L49.93 75.87L50.23 77.67L50.16 78.52L50.13 79.62L50.02 81.17L49.64 82.37L49.46 83.23L49.27 84.42L48.06 85.39L47.7 86.74L47.75 87.93L47.52 89.4L47.15 90.78L47.46 92.02L47.58 92.93L47.69 94.34L48.19 95.48L48.55 96.51L48.69 97.75L49 98.77L49.45 100L100 100Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M100 0L49.74 0L49.73 1.36L49.2 2.13L49.37 3.36L48.47 4.93L47.66 6.19L48.04 7.42L47.83 8.08L47.46 9.47L47.05 10.6L47.76 12.06L47.48 13.16L48.6 14.3L48.52 15.58L48.25 16.43L48.49 17.93L48.76 19.11L48.49 20.48L49 21.61L49.37 22.37L49.8 23.5L49.99 24.86L50.42 26.36L50.47 27.3L50.62 28.62L50.31 29.54L49.97 30.9L50 32L50.12 33.04L49.88 34.68L49.77 35.96L49.65 36.75L49.84 38.14L50.83 39.58L50.65 40.58L50.65 41.44L51.1 42.97L51.42 43.96L51.59 45.43L52.01 46.5L51.39 47.53L51.97 48.87L52.45 49.87L52.87 51.42L53.87 52.48L53.11 53.59L52.87 55.08L52.58 55.65L52.17 56.96L51.71 58.42L51.16 59.64L50.73 60.76L50.61 61.64L50.55 62.76L49.09 64.02L49.3 65.38L49.48 66.88L49.54 68.21L49.75 68.71L49.69 70.47L49.88 71.63L50.07 72.88L50.27 73.54L50.11 75.16L49.93 75.87L50.23 77.67L50.16 78.52L50.13 79.62L50.02 81.17L49.64 82.37L49.46 83.23L49.27 84.42L48.06 85.39L47.7 86.74L47.75 87.93L47.52 89.4L47.15 90.78L47.46 92.02L47.58 92.93L47.69 94.34L48.19 95.48L48.55 96.51L48.69 97.75L49 98.77L49.45 100L100 100Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+}
+
+/* Anima bianca della carta: stessa sagoma, sporge in modo irregolare sotto il giallo */
+.s01-bg__anima {
+  background: var(--c-carta);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M100 0L49.31 0L49.44 1.36L48.66 2.13L48.98 3.36L47.8 4.93L47.13 6.19L47.54 7.42L47.49 8.08L47.2 9.47L46.49 10.6L47.38 12.06L46.97 13.16L48.05 14.3L48.05 15.58L47.68 16.43L48.2 17.93L48.31 19.11L48.11 20.48L48.73 21.61L48.89 22.37L49.17 23.5L49.66 24.86L49.79 26.36L49.99 27.3L50.29 28.62L49.64 29.54L49.53 30.9L49.72 32L49.57 33.04L49.51 34.68L49.1 35.96L49.05 36.75L49.51 38.14L50.2 39.58L50.21 40.58L50.02 41.44L50.46 42.97L50.78 43.96L51.17 45.43L51.36 46.5L50.81 47.53L51.39 48.87L52.04 49.87L52.41 51.42L53.6 52.48L52.78 53.59L52.45 55.08L52.01 55.65L51.56 56.96L51.28 58.42L50.63 59.64L50.29 60.76L49.91 61.64L50.24 62.76L48.81 64.02L48.89 65.38L48.99 66.88L48.97 68.21L49.32 68.71L49.11 70.47L49.56 71.63L49.63 72.88L49.83 73.54L49.5 75.16L49.36 75.87L49.56 77.67L49.59 78.52L49.85 79.62L49.71 81.17L49.26 82.37L48.92 83.23L48.9 84.42L47.38 85.39L47.3 86.74L47.33 87.93L46.96 89.4L46.76 90.78L46.89 92.02L47.33 92.93L47.02 94.34L47.74 95.48L48.25 96.51L48 97.75L48.57 98.77L49.07 100L100 100Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M100 0L49.31 0L49.44 1.36L48.66 2.13L48.98 3.36L47.8 4.93L47.13 6.19L47.54 7.42L47.49 8.08L47.2 9.47L46.49 10.6L47.38 12.06L46.97 13.16L48.05 14.3L48.05 15.58L47.68 16.43L48.2 17.93L48.31 19.11L48.11 20.48L48.73 21.61L48.89 22.37L49.17 23.5L49.66 24.86L49.79 26.36L49.99 27.3L50.29 28.62L49.64 29.54L49.53 30.9L49.72 32L49.57 33.04L49.51 34.68L49.1 35.96L49.05 36.75L49.51 38.14L50.2 39.58L50.21 40.58L50.02 41.44L50.46 42.97L50.78 43.96L51.17 45.43L51.36 46.5L50.81 47.53L51.39 48.87L52.04 49.87L52.41 51.42L53.6 52.48L52.78 53.59L52.45 55.08L52.01 55.65L51.56 56.96L51.28 58.42L50.63 59.64L50.29 60.76L49.91 61.64L50.24 62.76L48.81 64.02L48.89 65.38L48.99 66.88L48.97 68.21L49.32 68.71L49.11 70.47L49.56 71.63L49.63 72.88L49.83 73.54L49.5 75.16L49.36 75.87L49.56 77.67L49.59 78.52L49.85 79.62L49.71 81.17L49.26 82.37L48.92 83.23L48.9 84.42L47.38 85.39L47.3 86.74L47.33 87.93L46.96 89.4L46.76 90.78L46.89 92.02L47.33 92.93L47.02 94.34L47.74 95.48L48.25 96.51L48 97.75L48.57 98.77L49.07 100L100 100Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+}
+
+/* Paper texture overlay */
+.s01-bg__viola::after,
+.s01-bg__anima::after,
+.s01-bg__giallo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/img/tex/tex-carta.jpg') center / cover;
+  mix-blend-mode: multiply;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ── Genitori ────────────────────────────────────────────── */
+/* .s01-parent = solo inclinazione timeline; dentro, le pose sovrapposte (colore sotto, sagoma sopra).
+   Stessa classe di posa sul colore e sulla sagoma: cambiano insieme. */
+.s01-parent {
+  position: absolute;
+  bottom: var(--floor);
+  height: var(--parent-h);
+  aspect-ratio: 2 / 3;
+  z-index: 10;
+}
+.s01-papa  { left: calc(30% - var(--parent-w) / 2); }   /* centro a x 30%, guarda a destra */
+.s01-mamma { left: calc(70% - var(--parent-w) / 2); }   /* centro a x 70%, guarda a sinistra */
+
+.s01-figure,
+.s01-layer {
+  position: absolute;
+  inset: 0;
+}
+.s01-color  { z-index: 1; }
+.s01-shadow {
+  z-index: 2;
+  filter: brightness(0);
+  clip-path: inset(0 0 0 0);                   /* sagoma intera finché non si stacca (b5) */
+}
+
+/* ── Bacinella su sgabellino ─────────────────────────────── */
+/* Centrata con margin auto, non con transform: GSAP anima x liberamente (trema alla b7).
+   Misure da s01-bacinella.png (1200×896): disegno da y 88 a 823 (piedi), bordo anteriore a y ≈ 300.
+   Il disegno (sgabello compreso) è alto 30vh → tela 30 × 896/735 = 36.6vh; i 73 px vuoti sotto i piedi
+   (2.94vh) scendono sotto il pavimento; bordo a (896 − 300)/896 = 66.5% della tela (~21vh da terra). */
+.s01-bacinella-area {
+  --bordo: 66.5%;
+  position: absolute;
+  bottom: calc(var(--floor) - 2.94vh);
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  height: 36.6vh;
+  aspect-ratio: 1200 / 896;
+  z-index: 20;
+}
+.s01-bacinella {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+/* Ritaglio: ciò che cade si vede sopra la linea del bordo e sparisce sotto.
+   Larghissimo e simmetrico, così le scaglie arrivano di lato dalla grattugia del papà. */
+.s01-dentro {
+  position: absolute;
+  bottom: var(--bordo);
+  left: calc(10% - 100vw);
+  width: calc(80% + 200vw);
+  height: 200vh;
+  overflow: hidden;
+  z-index: 2;
+}
+.s01-caduta {
+  position: absolute;
+  bottom: 0;                                   /* poggia sulla linea del bordo; la timeline anima y */
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+}
+.s01-pandeiro { height: 12vh; aspect-ratio: 1 / 1; }
+.s01-nota     { aspect-ratio: 1 / 1; }
+/* Posa facoltativa s01-mamma-pandeiro: solo se il file c'è. --pand (1 → 0 a metà b1) la scambia con mescola. */
+.s01-mamma-pandeiro { opacity: var(--pand, 0); }
+.s01-mamma-pandeiro:not(.is-loaded) { display: none; }
+.s01-layer:has(> .s01-mamma-pandeiro.is-loaded) > .s01-mamma-mescola > * { opacity: calc(1 - var(--pand, 0)); }
+.s01-scaglie  { height: 6vh;  aspect-ratio: 1 / 1; }
+
+/* ── Fumetti: papà x 36%, mamma x 64%, al 62% ────────────── */
+.s01-fumetto {
+  position: absolute;
+  bottom: calc(62% - 7vh);
+  height: 14vh;
+  aspect-ratio: 4 / 3;
+  z-index: 15;
+}
+.s01-fumetto-1 { left: calc(36% - 14vh * 2 / 3); }
+.s01-fumetto-2 { left: calc(64% - 14vh * 2 / 3); }
+
+.s01-fumetto-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  font-family: var(--ff-display);
+  font-size: clamp(0.6rem, 1.2vw, 1rem);
+  color: var(--c-inchiostro);
+  white-space: nowrap;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── Scaffale del laboratorio (x 10%, 50vh, tre ripiani) ── */
+/* Proporzioni 1:2 e altezze dei ripiani provvisorie: da rimisurare sull'immagine vera.
+   Ripiani dal pavimento: alto ~42vh, centrale ~28vh, basso ~14vh (su 50vh = 84% / 56% / 28%). */
+.s01-scaffale-area {
+  position: absolute;
+  bottom: var(--floor);
+  left: calc(10% - 50vh / 4);
+  height: 50vh;
+  aspect-ratio: 1 / 2;
+  z-index: 12;                                 /* davanti al papà: l'ampolla resta visibile */
+}
+.s01-scaffale { position: absolute; inset: 0; }
+
+/* Barattoli (vasi): 9vh, poggiano sul ripiano. Etichetta scritta dal codice sull'etichetta vuota.
+   I fratelli sono <button> (foglio con foto e didascalia); gli ingredienti role="img".
+   In hover (e focus per i bottoni) oscillano appena; fermi con Calma e riduci movimento. */
+.s01-vaso {
+  position: absolute;
+  height: 9vh;
+  aspect-ratio: 3 / 4;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  pointer-events: auto;
+}
+.s01-fratello { cursor: pointer; }
+.s01-ripiano-alto   { bottom: 84%; }
+.s01-ripiano-centro { bottom: 56%; }
+.s01-ripiano-basso  { bottom: 28%; }
+.s01-vaso.s01-sx    { left: 8%; }
+.s01-vaso.s01-dx    { right: 8%; }
+.s01-vaso.s01-mezzo { left: 38%; }
+
+.s01-vaso__wobble { position: absolute; inset: 0; transform-origin: 50% 100%; }
+.s01-vaso .placeholder { font-size: 0.5rem; align-items: flex-start; }
+.s01-vaso__label {
+  position: absolute;
+  top: 34%;
+  left: 8%;
+  right: 8%;
+  font: 700 clamp(6px, 0.95vh, 11px)/1.12 var(--ff-display);
+  text-align: center;
+  color: var(--c-inchiostro);
+  pointer-events: none;
+}
+.img-wrap:not(.is-loaded) > .s01-vaso__label {   /* fondino solo sopra il segnaposto */
+  background: rgba(252, 251, 250, 0.88);
+  border-radius: 0.3em;
+  padding: 0.15em 0.1em;
+}
+.s01-vaso:hover .s01-vaso__wobble,
+.s01-fratello:focus-visible .s01-vaso__wobble { animation: s01-oscilla 0.9s ease-in-out infinite; }
+.is-calm .s01-vaso .s01-vaso__wobble { animation: none; }
+@keyframes s01-oscilla {
+  0%, 100% { rotate: -3deg; }
+  50%      { rotate: 3deg; }
+}
+
+/* Ampolla dei traumi: ripiano centrale, sul bordo destro, sporge verso il gomito del papà */
+.s01-ampolla-wrapper {
+  position: absolute;
+  bottom: 56%;
+  right: -22%;
+  height: 12vh;
+  aspect-ratio: 2 / 3;
+}
+
+.s01-ampolla-label {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-display);
+  font-size: clamp(0.35rem, 0.7vw, 0.55rem);
+  color: var(--c-inchiostro);
+  text-align: center;
+  line-height: 1.2;
+  padding: 0 8%;
+  pointer-events: none;
+}
+
+.s01-ampolla-liquid-wrap {
+  z-index: 2;
+  clip-path: inset(0 0 0 0);    /* pieno: il liquido copre l'etichetta */
+}
+
+.s01-ampolla-glass,
+.s01-ampolla-cracked { z-index: 3; }
+
+/* Il vetro è trasparente: anche il suo segnaposto lascia vedere liquido ed etichetta */
+.s01-ampolla-glass .placeholder,
+.s01-ampolla-cracked .placeholder { opacity: 0.45; }
+
+/* ── Coriandoli (partono dalla bacinella) ────────────────────── */
+.s01-confetti {
+  position: absolute;
+  bottom: 40%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.s01-confetto {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0;
+  box-shadow: 1px 1px 2px rgba(0,0,0,.15);
+  overflow: hidden;
+}
+
+/* Paper texture on confetti */
+.s01-confetto::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/img/tex/tex-carta.jpg') center / 80px;
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+/* Shape variants */
+.s01-confetto--circle  { border-radius: 50%; }
+.s01-confetto--tri     { border-radius: 0; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+
+/* ── Reduced motion ──────────────────────────────────────── */
+/* main.js non crea scrub, Lenis né tempo reale: ogni battuta è un fotogramma fermo. */
+@media (prefers-reduced-motion: reduce) {
+  .subtitle-bar, .audio-unlock, .switch__track, .switch__thumb,
+  .progress__tab { transition: none; animation: none !important; }
+  .s01-vaso__wobble { animation: none !important; }
+  .clic-dot, .subtitle-bar.is-bugiardino { animation: none !important; }
+}
+
+/* ── Focus ring (keyboard a11y) ──────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--c-viola);
+  outline-offset: 2px;
+}
+
+/* ── Utility ─────────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* ══ DEMO (MINIMO.md) ══════════════════════════════════════════
+   Un asset mancante non mostra il segnaposto: l'elemento semplicemente non compare.
+   Le scritte (cartellini, fumetti, etichette) restano su un fondino di carta in Chunko. */
+.placeholder { display: none !important; }
+.item.is-nota { display: none; }                               /* note [DA DEFINIRE] */
+.demo-grigio-1 .scene-img { filter: grayscale(0.55); }         /* S13 fase 2: mezza grigia */
+.demo-grigio-2 .scene-img { filter: grayscale(1); }            /* S13 fase 3: tutta grigia */
+.s01-fumetto-2 .scene-img { transform: scaleX(-1); }           /* un solo fumetto: quello della mamma è specchiato */
+
+/* forme di carta al posto delle immagini mancanti */
+.img-wrap:not(.is-loaded) > .item__label {
+  font-family: var(--ff-display);
+}
+[data-item="s03-tatami"] .img-wrap:not(.is-loaded) {
+  border-radius: 0.6vh;
+  background: var(--tex) center / 80px, #7fb069;
+  background-blend-mode: multiply;
+  box-shadow: 0 0.4vh 0.6vh rgba(33, 37, 41, 0.3), inset 0 0 0 0.5vh #5c8a4a;
+}
+[data-item="s16-telefono-grande"] .img-wrap:not(.is-loaded) {
+  border: 3vh solid #2b2b33;
+  border-radius: 6vh;
+  box-shadow: 0 1vh 3vh rgba(0, 0, 0, 0.45);
+  background: #000;
+}
+[data-item="s16-play"] .img-wrap:not(.is-loaded),
+[data-item="s16-play"] .item__c:not(.is-loaded) {
+  border-radius: 50%;
+  background: var(--tex) center / 80px, var(--c-giallo);
+  background-blend-mode: multiply;
+  box-shadow: 0 0.5vh 1.2vh rgba(33, 37, 41, 0.45);
+}
+[data-item="s16-play"] .item__c::after {
+  content: '';
+  position: absolute;
+  left: 40%;
+  top: 30%;
+  border-style: solid;
+  border-width: 4.5vh 0 4.5vh 7vh;          /* triangolo del play */
+  border-color: transparent transparent transparent var(--c-inchiostro);
+}
+[data-item="s16-play"] .img-wrap.is-loaded::after { display: none; }
+
+/* ── Approfondimenti (demo): foglio «Work in progress» e ancore ben visibili ── */
+.deep__media {
+  font-family: var(--ff-display);
+  font-size: clamp(1.4rem, 5vh, 2.6rem);
+  border: 0;
+  background:
+    repeating-linear-gradient(-45deg, var(--c-giallo) 0 18px, var(--c-inchiostro) 18px 36px) border-box;
+  padding: 12px;                                   /* la cornice a strisce da cantiere */
+  position: relative;
+}
+.deep__media::before {                             /* il cartello di carta dentro le strisce */
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: 4px;
+  background: var(--tex) center / 80px, var(--c-carta);
+  background-blend-mode: multiply;
+  z-index: -1;                                     /* sotto la scritta (isolation sul contenitore) */
+}
+.deep__media { isolation: isolate; color: var(--c-inchiostro); }
+
+/* ancora: cerchio giallo con «+», bordo scuro; pulsa piano (fermo con Calma e riduci movimento) */
+.is-approfondimento .img-wrap:not(.is-loaded),
+.clic-btn.img-wrap:not(.is-loaded) {
+  background: none;
+  box-shadow: none;
+  overflow: visible;
+}
+.is-approfondimento .img-wrap:not(.is-loaded)::before,
+.clic-btn.img-wrap:not(.is-loaded)::before {
+  content: '+';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6.4vh;
+  height: 6.4vh;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  border: 3px solid var(--c-inchiostro);
+  border-radius: 50%;
+  background: var(--tex) center / 60px, var(--c-giallo);
+  background-blend-mode: multiply;
+  box-shadow: 0 0.4vh 0.8vh rgba(33, 37, 41, 0.4), 0 0 0 0.6vh rgba(252, 251, 250, 0.85);
+  font: 700 4.4vh/1 var(--ff-display);
+  color: var(--c-inchiostro);
+  animation: ancora-pulsa 1.8s ease-in-out infinite;
+}
+.clic-btn.img-wrap:not(.is-loaded) .clic-dot { display: none; }   /* il cerchio è già il segnale */
+.s01-fratello .s01-vaso__wobble::after {           /* barattoli dei fratelli: piccola ancora in alto a destra */
+  content: '+';
+  position: absolute;
+  top: -1.2vh;
+  right: -1.2vh;
+  width: 3vh;
+  height: 3vh;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--c-inchiostro);
+  border-radius: 50%;
+  background: var(--c-giallo);
+  font: 700 2.2vh/1 var(--ff-display);
+  color: var(--c-inchiostro);
+  animation: ancora-pulsa 1.8s ease-in-out infinite;
+}
+@keyframes ancora-pulsa { 50% { scale: 1.12; } }
+.is-calm .is-approfondimento .img-wrap::before,
+.is-calm .clic-btn.img-wrap::before,
+.is-calm .s01-fratello .s01-vaso__wobble::after { animation: none; }
+@media (prefers-reduced-motion: reduce) {
+  .is-approfondimento .img-wrap::before, .clic-btn.img-wrap::before, .s01-fratello .s01-vaso__wobble::after { animation: none; }
+}
+.deep__wip {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: min(52vh, 100%);
+  object-fit: contain;
+  border-radius: 4px;
+}
+.deep__media { min-height: 0; overflow: hidden; }
+
+/* elementi con una scritta ma senza immagine (cartellini, fumetti, pagelle, salvadanaio…): cartoncino di carta */
+.has-label .img-wrap:not(.is-loaded) {
+  border: 2px solid var(--c-inchiostro);
+  border-radius: 0.8vh;
+  background: var(--tex) center / 80px, var(--c-carta);
+  background-blend-mode: multiply;
+  box-shadow: 0.3vh 0.5vh 0.8vh rgba(33, 37, 41, 0.3);
+}
+.has-label .img-wrap:not(.is-loaded) > .item__label { background: none; box-shadow: none; }
+
+/* S16: scritte finali in HTML (Chunko nero con alone chiaro per leggerle sul video) */
+.is-scritta .card, .is-scritta .item__c { background: none; box-shadow: none; }
+.is-scritta .card::after { display: none; }
+.is-scritta .item__label {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 4.8vh, 3.4rem) !important;   /* batte la misura automatica delle etichette */
+  max-width: 100%;
+  text-transform: uppercase;                        /* tutte in maiuscolo */
+  line-height: 1.05;
+  color: var(--c-inchiostro);
+  text-align: center;
+  text-wrap: balance;
+  background: none;
+  box-shadow: none;
+  text-shadow: 0 0 0.35em rgba(252, 251, 250, 0.95), 0 0 0.12em rgba(252, 251, 250, 1);
+}
+/* S14: il prato copre tutta la larghezza, ancorato in basso */
+[data-item="s14-prato"] .scene-img { object-fit: cover; object-position: 50% 100%; }
+
+/* Linguette chiuse: il nome si intravede, come se la linguetta si infilasse sotto la barra
+   (taglio netto sul bordo della barra invece della sfumatura). Sotto i 640px restano senza scritta. */
+.progress__tab {
+  --len: 56px;
+  color: var(--c-inchiostro);
+  font-size: 0.62rem;
+  -webkit-mask: linear-gradient(90deg, #000 calc(100% - 3px), transparent);
+          mask: linear-gradient(90deg, #000 calc(100% - 3px), transparent);
+}
+.progress__mark[aria-current] .progress__tab { --len: 70px; font-size: 0.66rem; }
+.controls { top: calc(var(--bar-h) + 66px); }        /* sotto le linguette più lunghe */
+@media (max-width: 640px) {
+  .progress__tab { color: transparent; --len: 16px; }
+  .progress__mark[aria-current] .progress__tab { --len: 22px; }
+  .controls { top: calc(var(--bar-h) + 28px); }
+}
+.is-scritta.is-sul-nero .item__label { color: var(--c-carta); text-shadow: 0 0.2vh 0.6vh rgba(0, 0, 0, 0.6); }   /* ultime frasi, sul nero col logo */
+
+/* Etichette chiuse proprio DIETRO la barra: la barra (fondo carta, riempimento viola, texture) sta sopra
+   alle linguette chiuse, che salgono di 14px sotto di essa e ne spuntano solo sotto. Aperta (hover/focus)
+   la linguetta passa sopra a tutto. */
+.progress::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--c-carta);
+  pointer-events: none;
+}
+.progress__fill, .progress__glow { z-index: 2; pointer-events: none; }   /* i clic passano ai segni sotto */
+.progress::after { z-index: 3; }
+.progress__marks { z-index: auto; }
+.progress__mark { z-index: 0; }
+.progress__mark:hover, .progress__mark:focus-visible { z-index: 6; }
+.progress__tab {
+  --y0: calc(var(--len) - var(--th) - 14px);           /* 14px nascosti sotto la barra */
+  -webkit-mask: none;
+          mask: none;
+}
+
+.progress__mark.is-right .progress__tab { --y0: -14px; }

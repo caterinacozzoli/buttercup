@@ -1,0 +1,15 @@
+# materiali grezzi e screenshot di verifica: restano solo in locale
+sorgenti/
+verifiche/
+.DS_Store
+prompt-vizcom/
+# strumenti e file locali
+.claude/
+.switchboard/
+.playwright-mcp/
+notte.sh
+notte.log
+BRUTTA_FATTA
+da-smistare/
+# copie dal portfolio non usate dal sito
+assets/img/non-assegnati/

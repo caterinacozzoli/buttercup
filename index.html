@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buttercup</title>
+
+  <!-- Lenis CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css">
+
+  <!-- Google Fonts: Onest -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Project CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <h1 class="visually-hidden" id="top" tabindex="-1">Buttercup</h1>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTERFACCIA
+       ═══════════════════════════════════════════════════════ -->
+
+  <!-- Barra di avanzamento: i segni delle scene li crea main.js -->
+  <nav class="progress" id="progress" data-ui-label="scene">
+    <div class="progress__fill"></div>
+    <div class="progress__glow"></div>
+    <div class="progress__marks"></div>
+  </nav>
+
+  <!-- Controls -->
+  <!-- Testi dei controlli: js/i18n.js (data-ui = testo, data-ui-label = aria-label) -->
+  <div class="controls" role="group" data-ui-label="controlli">
+    <div class="lang" role="group" data-ui-label="lingua">
+      <button class="lang__btn" type="button" data-lang="it" lang="it" aria-label="Italiano">IT</button>
+      <button class="lang__btn" type="button" data-lang="pt" lang="pt-BR" aria-label="Português (Brasil)">PT</button>
+    </div>
+    <button class="switch" id="btn-subtitles" type="button" role="switch" aria-checked="true">
+      <span data-ui="sottotitoli">Sottotitoli</span>
+      <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+    </button>
+    <button class="switch" id="btn-voice" type="button" role="switch" aria-checked="false">
+      <span data-ui="voce">Voce</span>
+      <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+    </button>
+    <!-- Musica: brani di Caterina in assets/musica/ (predefinito acceso) -->
+    <button class="switch" id="btn-music" type="button" role="switch" aria-checked="true">
+      <span data-ui="musica">Musica</span>
+      <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+    </button>
+    <!-- Calma: ferma i movimenti continui (dondolii, marce, orbite); la storia scorre comunque -->
+    <button class="switch" id="btn-calm" type="button" role="switch" aria-checked="false">
+      <span data-ui="calma">Calma</span>
+      <span class="switch__track" aria-hidden="true"><span class="switch__thumb"></span></span>
+    </button>
+  </div>
+
+  <!-- Subtitle bar -->
+  <div class="subtitle-bar" id="subtitle-bar" aria-live="polite" aria-atomic="true">
+    <!-- intestazione del bugiardino (solo in S13) -->
+    <span class="subtitle-head" data-ui="bugiardino"></span>
+    <p class="subtitle-text" id="subtitle-text"></p>
+  </div>
+
+  <!-- Audio unlock notice -->
+  <div class="audio-unlock hidden" id="audio-unlock" data-ui="audio">Tocca per attivare l'audio</div>
+
+  <!-- Telefono in verticale: cartellino «Girami» (chiudibile) -->
+  <div class="girami" id="girami" role="note">
+    <p class="girami__txt" data-ui="girami">Girami</p>
+    <button class="girami__chiudi" id="girami-chiudi" type="button" data-ui-label="chiudi">×</button>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       PALCO FISSO: sfondi, uno strato per scena, Caterina.
+       Gli strati delle scene 0 e 2–16 li crea main.js da scenes.js.
+       ═══════════════════════════════════════════════════════ -->
+  <div class="stage" id="stage">
+
+    <div class="bgs" id="bgs" aria-hidden="true">
+      <!-- S01: viola sotto, foglio giallo strappato sopra (anima bianca + ombra) -->
+      <div class="bg" data-bg="s01">
+        <div class="s01-bg">
+          <div class="s01-bg__viola"></div>
+          <div class="s01-bg__foglio">
+            <div class="s01-bg__anima"></div>
+            <div class="s01-bg__giallo"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         SCENA 01 — LA RICETTA (HTML a mano, animazione in main.js)
+         ═══════════════════════════════════════════════════════ -->
+    <!-- niente aria-hidden sullo strato: contiene i barattoli (bottoni e immagini con etichetta);
+         i blocchi decorativi hanno aria-hidden ciascuno -->
+    <div class="layer" data-layer="s01">
+
+      <!-- ── PAPÀ (x 30%, guarda a destra) ───────────────────────
+           .s01-parent: solo inclinazione (timeline) · pose sovrapposte, stessa classe sul colore e sulla sagoma.
+           data-anim: fotogrammi della posa (sistema unico, vedi anims in scenes.js) -->
+      <div aria-hidden="true" class="s01-parent s01-papa">
+        <div class="s01-figure">
+          <!-- livello a colori -->
+          <div class="s01-layer s01-color">
+            <div class="img-wrap variant s01-papa-mescola">
+              <img class="scene-img" data-anim="s01-papa-mescola" src="assets/img/s01/s01-papa-mescola.png" alt="">
+              <div class="placeholder placeholder--1" aria-hidden="true">s01-papa-mescola.png</div>
+            </div>
+            <div class="img-wrap variant s01-papa-grana">
+              <img class="scene-img" data-anim="s01-papa-grana" src="assets/img/s01/s01-papa-grana.png" alt="">
+              <div class="placeholder placeholder--2" aria-hidden="true">s01-papa-grana.png</div>
+            </div>
+            <div class="img-wrap variant s01-papa-oops">
+              <img class="scene-img" src="assets/img/s01/s01-papa-oops.png" alt="">
+              <div class="placeholder placeholder--3" aria-hidden="true">s01-papa-oops.png</div>
+            </div>
+            <div class="img-wrap variant s01-papa-confuso">
+              <img class="scene-img" src="assets/img/s01/s01-papa-confuso.png" alt="">
+              <div class="placeholder placeholder--4" aria-hidden="true">s01-papa-confuso.png</div>
+            </div>
+          </div>
+          <!-- sagoma nera (stessa immagine, brightness 0): si stacca alla b5 -->
+          <div class="s01-layer s01-shadow s01-papa-shadow">
+            <div class="img-wrap variant s01-papa-mescola">
+              <img class="scene-img" data-anim="s01-papa-mescola" src="assets/img/s01/s01-papa-mescola.png" alt="">
+              <div class="placeholder placeholder--0" aria-hidden="true">s01-papa-mescola.png</div>
+            </div>
+            <div class="img-wrap variant s01-papa-grana">
+              <img class="scene-img" data-anim="s01-papa-grana" src="assets/img/s01/s01-papa-grana.png" alt="">
+              <div class="placeholder placeholder--1" aria-hidden="true">s01-papa-grana.png</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MAMMA (x 70%, guarda a sinistra) ─────────────────── -->
+      <div aria-hidden="true" class="s01-parent s01-mamma">
+        <div class="s01-figure">
+          <!-- livello a colori -->
+          <div class="s01-layer s01-color">
+            <div class="img-wrap variant s01-mamma-mescola">
+              <img class="scene-img" data-anim="s01-mamma-mescola" src="assets/img/s01/s01-mamma-mescola.png" alt="">
+              <div class="placeholder placeholder--1" aria-hidden="true">s01-mamma-mescola.png</div>
+            </div>
+            <div class="img-wrap variant s01-mamma-pandeiro">
+              <img class="scene-img" src="assets/img/s01/s01-mamma-pandeiro.png" alt="">
+              <div class="placeholder placeholder--2" aria-hidden="true">s01-mamma-pandeiro.png</div>
+            </div>
+            <div class="img-wrap variant s01-mamma-confusa">
+              <img class="scene-img" src="assets/img/s01/s01-mamma-oops.png" alt="">
+              <div class="placeholder placeholder--3" aria-hidden="true">s01-mamma-confusa.png</div>
+            </div>
+          </div>
+          <!-- sagoma nera (stessa immagine, brightness 0): si stacca alla b5 -->
+          <div class="s01-layer s01-shadow s01-mamma-shadow">
+            <div class="img-wrap variant s01-mamma-mescola">
+              <img class="scene-img" data-anim="s01-mamma-mescola" src="assets/img/s01/s01-mamma-mescola.png" alt="">
+              <div class="placeholder placeholder--1" aria-hidden="true">s01-mamma-mescola.png</div>
+            </div>
+            <div class="img-wrap variant s01-mamma-pandeiro">
+              <img class="scene-img" src="assets/img/s01/s01-mamma-pandeiro.png" alt="">
+              <div class="placeholder placeholder--2" aria-hidden="true">s01-mamma-pandeiro.png</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── BACINELLA gialla su sgabellino (x 50%): ciò che ci cade sparisce dietro il bordo ── -->
+      <div aria-hidden="true" class="s01-bacinella-area">
+        <!-- ritaglio: tutto ciò che scende sotto la linea del bordo non si vede più -->
+        <div class="s01-dentro">
+          <div class="img-wrap s01-caduta s01-pandeiro">
+            <img class="scene-img" src="assets/img/s01/s01-pandeiro.png" alt="">
+            <div class="placeholder placeholder--3" aria-hidden="true">s01-pandeiro.png</div>
+          </div>
+          <div class="img-wrap s01-caduta s01-scaglie">
+            <img class="scene-img" src="assets/img/s01/s01-scaglie.png" alt="">
+            <div class="placeholder placeholder--4" aria-hidden="true">s01-scaglie.png</div>
+          </div>
+        </div>
+        <div class="img-wrap s01-bacinella">
+          <img class="scene-img" data-anim="s01-bacinella" src="assets/img/s01/s01-bacinella.png" alt="">
+          <div class="placeholder placeholder--0" aria-hidden="true">s01-bacinella.png</div>
+        </div>
+      </div>
+
+      <!-- ── FUMETTI: papà «Buongiorno!» (x 36%), mamma «Buona giornata!» (x 64%) ── -->
+      <div aria-hidden="true" class="s01-fumetto s01-fumetto-1">
+        <div class="img-wrap variant">
+          <img class="scene-img" src="assets/img/s01/s01-fumetto.png" alt="">
+          <div class="placeholder placeholder--1" aria-hidden="true">s01-fumetto-1.png</div>
+        </div>
+        <span class="s01-fumetto-text" data-i18n="s01-fumetto-1">Buongiorno!</span>
+      </div>
+      <div aria-hidden="true" class="s01-fumetto s01-fumetto-2">
+        <div class="img-wrap variant">
+          <img class="scene-img" src="assets/img/s01/s01-fumetto.png" alt="">
+          <div class="placeholder placeholder--3" aria-hidden="true">s01-fumetto-2.png</div>
+        </div>
+        <span class="s01-fumetto-text" data-i18n="s01-fumetto-2">Buona giornata!</span>
+      </div>
+
+      <!-- ── SCAFFALE del laboratorio (x 10%): tre ripiani; barattoli visibili per tutta la scena.
+           Etichette scritte dal codice sull'etichetta vuota dell'immagine. ── -->
+      <div class="s01-scaffale-area">
+        <div aria-hidden="true" class="img-wrap s01-scaffale">
+          <img class="scene-img" src="assets/img/s01/s01-scaffale.png" alt="">
+          <div class="placeholder placeholder--3" aria-hidden="true">s01-scaffale.png</div>
+        </div>
+
+        <!-- ripiano alto: i barattoli dei fratelli, cliccabili (foglio con foto e didascalia) -->
+        <button class="s01-vaso s01-fratello s01-ripiano-alto s01-sx" type="button" aria-haspopup="dialog" data-fratello="1"
+                data-i18n-label="s01-fratello-1-nome" data-it-label="Luana, test 1"
+                data-it-caption="Luana — foto e didascalia da definire">
+          <span class="s01-vaso__wobble">
+            <span class="img-wrap variant">
+              <img class="scene-img" src="assets/img/s01/s01-ampolla-fratello-1.png" alt="">
+              <span class="placeholder placeholder--4" aria-hidden="true">s01-ampolla-fratello-1.png</span>
+              <span class="s01-vaso__label" aria-hidden="true" data-i18n="s01-barattolo-1">TEST 1 · LUANA · 1996</span>
+            </span>
+          </span>
+        </button>
+        <button class="s01-vaso s01-fratello s01-ripiano-alto s01-dx" type="button" aria-haspopup="dialog" data-fratello="2"
+                data-i18n-label="s01-fratello-2-nome" data-it-label="Raffaele, test 2"
+                data-it-caption="Raffaele — foto e didascalia da definire">
+          <span class="s01-vaso__wobble">
+            <span class="img-wrap variant">
+              <img class="scene-img" src="assets/img/s01/s01-ampolla-fratello-2.png" alt="">
+              <span class="placeholder placeholder--0" aria-hidden="true">s01-ampolla-fratello-2.png</span>
+              <span class="s01-vaso__label" aria-hidden="true" data-i18n="s01-barattolo-2">TEST 2 · RAFFAELE · 1998</span>
+            </span>
+          </span>
+        </button>
+
+        <!-- ripiano centrale: ingredienti finiti + l'ampolla dei traumi sul bordo destro, verso il papà -->
+        <div class="s01-vaso s01-ripiano-centro s01-sx" role="img" data-i18n-label="s01-barattolo-tette" data-it-label="TETTE GRANDI · ESAURITE NEL 1996">
+          <span class="s01-vaso__wobble">
+            <span class="img-wrap variant">
+              <img class="scene-img" src="assets/img/s01/s01-barattolo-tette.png" alt="">
+              <span class="placeholder placeholder--1" aria-hidden="true">s01-barattolo-tette.png</span>
+              <span class="s01-vaso__label" aria-hidden="true" data-i18n="s01-barattolo-tette">TETTE GRANDI · ESAURITE NEL 1996</span>
+            </span>
+          </span>
+        </div>
+        <div class="s01-vaso s01-ripiano-centro s01-mezzo" role="img" data-i18n-label="s01-barattolo-ricci" data-it-label="CAPELLI RICCI · ESAURITI">
+          <span class="s01-vaso__wobble">
+            <span class="img-wrap variant">
+              <img class="scene-img" src="assets/img/s01/s01-barattolo-ricci.png" alt="">
+              <span class="placeholder placeholder--2" aria-hidden="true">s01-barattolo-ricci.png</span>
+              <span class="s01-vaso__label" aria-hidden="true" data-i18n="s01-barattolo-ricci">CAPELLI RICCI · ESAURITI</span>
+            </span>
+          </span>
+        </div>
+        <div aria-hidden="true" class="s01-ampolla-wrapper">
+          <div class="variant s01-ampolla-label"><span data-i18n="s01-etichetta">UNA VAGONATA DI TRAUMI</span></div>
+          <div class="variant s01-ampolla-liquid-wrap">
+            <div class="img-wrap variant">
+              <img class="scene-img" src="assets/img/s01/s01-liquido.png" alt="">
+              <div class="placeholder placeholder--0" aria-hidden="true">s01-liquido.png</div>
+            </div>
+          </div>
+          <div class="img-wrap variant s01-ampolla-glass">
+            <img class="scene-img" src="assets/img/s01/s01-ampolla.png" alt="">
+            <div class="placeholder placeholder--1" aria-hidden="true">s01-ampolla.png</div>
+          </div>
+          <div class="img-wrap variant s01-ampolla-cracked">
+            <img class="scene-img" src="assets/img/s01/s01-ampolla-crepata.png" alt="">
+            <div class="placeholder placeholder--2" aria-hidden="true">s01-ampolla-crepata.png</div>
+          </div>
+        </div>
+
+        <!-- ripiano basso -->
+        <div class="s01-vaso s01-ripiano-basso s01-sx" role="img" data-i18n-label="s01-barattolo-allergie" data-it-label="ALLERGIE · DOSE PER TRE">
+          <span class="s01-vaso__wobble">
+            <span class="img-wrap variant">
+              <img class="scene-img" src="assets/img/s01/s01-barattolo-allergie.png" alt="">
+              <span class="placeholder placeholder--3" aria-hidden="true">s01-barattolo-allergie.png</span>
+              <span class="s01-vaso__label" aria-hidden="true" data-i18n="s01-barattolo-allergie">ALLERGIE · DOSE PER TRE</span>
+            </span>
+          </span>
+        </div>
+        <!-- etichetta provvisoria -->
+        <div class="s01-vaso s01-ripiano-basso s01-mezzo" role="img" data-i18n-label="s01-barattolo-bunda" data-it-label="BUNDA · ESAURITA">
+          <span class="s01-vaso__wobble">
+            <span class="img-wrap variant">
+              <img class="scene-img" src="assets/img/s01/s01-barattolo-bunda.png" alt="">
+              <span class="placeholder placeholder--2" aria-hidden="true">s01-barattolo-bunda.png</span>
+              <span class="s01-vaso__label" aria-hidden="true" data-i18n="s01-barattolo-bunda">BUNDA · ESAURITA</span>
+            </span>
+          </span>
+        </div>
+        <div class="s01-vaso s01-ripiano-basso s01-dx" role="img" data-i18n-label="s01-barattolo-altezza" data-it-label="ALTEZZA · ULTIME GOCCE">
+          <span class="s01-vaso__wobble">
+            <span class="img-wrap variant">
+              <img class="scene-img" src="assets/img/s01/s01-barattolo-altezza.png" alt="">
+              <span class="placeholder placeholder--4" aria-hidden="true">s01-barattolo-altezza.png</span>
+              <span class="s01-vaso__label" aria-hidden="true" data-i18n="s01-barattolo-altezza">ALTEZZA · ULTIME GOCCE</span>
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <!-- ── CORIANDOLI (la neonata è la Caterina globale) ── -->
+      <div aria-hidden="true" class="s01-confetti"></div>
+
+    </div><!-- /s01 -->
+
+    <!-- Caterina: contenitore globale, attraversa tutte le scene -->
+    <div id="character" class="character" aria-hidden="true">
+      <div class="cate__how">
+        <div class="cate__rt">
+          <div class="cate__fig"></div>
+          <div class="cate__attach"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /stage -->
+
+
+  <!-- Tracce di scroll: una <section> per scena, alta quanto il suo scroll -->
+  <main id="tracks"></main>
+
+
+  <!-- Approfondimento: foglio di carta con i contenuti del periodo -->
+  <dialog class="deep" id="deep" aria-labelledby="deep-title" data-lenis-prevent>
+    <button class="deep__close" id="deep-close" type="button" data-ui-label="chiudi">×</button>
+    <h2 class="deep__title" id="deep-title"></h2>
+    <div class="deep__media"><img class="deep__wip" src="assets/img/ui/work-in-progress.gif" alt="Work in progress"></div>
+    <p class="deep__caption" id="deep-caption" hidden></p>
+  </dialog>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SCRIPTS  (order matters: libs → data → app)
+       ═══════════════════════════════════════════════════════ -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script src="js/scenes.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <!-- solo su localhost: Cmd+K sposta gli elementi, Cmd+R copia le coordinate -->
+  <script src="js/sposta.js"></script>
+</body>
+</html>
