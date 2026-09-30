@@ -1419,3 +1419,10 @@ html.is-deep { overflow: hidden; }
 .s01-vaso.s01-fratello.s01-sx { left: 12%; }
 .s01-vaso.s01-fratello.s01-dx { right: 12%; }
 .s01-ampolla-wrapper { height: calc(11vh * 5 / 3); }
+.s01-vaso.s01-fratello { bottom: calc(87.5% - 2.6vh); }        /* poggiano sul tetto */
+/* scomparti: alto tette + ricci · centro bunda (+ ampolla sul bordo) · basso allergie + altezza */
+.s01-vaso[data-i18n-label="s01-barattolo-tette"]    { bottom: calc(64.3% - 0.7vh); left: 27%; }
+.s01-vaso[data-i18n-label="s01-barattolo-ricci"]    { bottom: calc(64.3% - 0.7vh); left: auto; right: 27%; }
+.s01-vaso[data-i18n-label="s01-barattolo-bunda"]    { bottom: calc(43.6% - 0.7vh); left: calc(45% - 8vh * 403 / 600 / 2); }
+.s01-vaso[data-i18n-label="s01-barattolo-allergie"] { left: 30%; }
+.s01-vaso[data-i18n-label="s01-barattolo-altezza"]  { right: 30%; }
