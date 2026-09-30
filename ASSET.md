@@ -1,4 +1,4 @@
-# Asset da generare (45/186 pronti)
+# Asset da generare (67/186 pronti)
 
 **Versione minima (30/09)**: Caterina = bambina (S02–S04), medie (S05), liceo (S06–S07), studentessa (S08–S12, S10 b1), tailleur (S10 b2–b3, S13 b1–b3), hostess (S11), felpa/amici (S13–S14), colorata (da S14 b4). Le voci barrate non servono in questa versione.
 
@@ -19,38 +19,38 @@ Il testo lo scrive sempre il codice (Chunko). Finché mancano restano gli stili 
 
 Pose animate: immagine ferma + fotogrammi `-1…-N` sulla stessa tela. I fotogrammi li ricava Claude dai tuoi video stop motion (5 s, camera ferma con la stessa inquadratura dell'immagine ferma, sfondo uniforme di un colore che non c'è nel soggetto, fine del movimento ≈ inizio): mettili in `sorgenti/s01/` con lo stesso nome (es. `sorgenti/s01/s01-papa-grana.mp4`).
 
-- [ ] s01-papa-mescola.png — ferma (col cucchiaio di legno, guarda a destra)
+- [x] s01-papa-mescola.png — ferma (col cucchiaio di legno, guarda a destra)
 - [ ] s01-papa-mescola-1…N.png — fotogrammi
-- [ ] s01-papa-grana.png — ferma (grattugia il grana)
+- [x] s01-papa-grana.png — ferma (grattugia il grana)
 - [ ] s01-papa-grana-1…N.png — fotogrammi
-- [ ] s01-papa-oops.png — gomito all'indietro verso sinistra, si gira a guardare
-- [ ] s01-papa-confuso.png — fermo, faccia confusa (b8)
-- [ ] s01-mamma-mescola.png — ferma (col cucchiaio di legno, guarda a sinistra)
+- [x] s01-papa-oops.png — gomito all'indietro verso sinistra, si gira a guardare
+- [x] s01-papa-confuso.png — fermo, faccia confusa (b8)
+- [x] s01-mamma-mescola.png — ferma (col cucchiaio di legno, guarda a sinistra)
 - [ ] s01-mamma-mescola-1…N.png — fotogrammi
 - [ ] s01-mamma-confusa.png — ferma, faccia confusa (b8)
-- [ ] s01-mamma-drop.png — extra (pandeiro che le scappa di mano): se è la posa giusta, usala a metà b1 tra pandeiro e mescola
-- [ ] s01-mamma-oops.png — extra: pose di sorpresa; da valutare (b6/b7) o come mamma-confusa se è quella la faccia
-- [ ] s01-mamma-pandeiro.png — facoltativa: se c'è, la mamma parte col pandeiro in mano e a metà b1 passa a mescola (stessa tela)
+- [x] s01-mamma-drop.png — extra (pandeiro che le scappa di mano): se è la posa giusta, usala a metà b1 tra pandeiro e mescola
+- [x] s01-mamma-oops.png — extra: pose di sorpresa; da valutare (b6/b7) o come mamma-confusa se è quella la faccia
+- [x] s01-mamma-pandeiro.png — facoltativa: se c'è, la mamma parte col pandeiro in mano e a metà b1 passa a mescola (stessa tela)
 - [x] s01-bacinella.png — ferma (bacinella gialla su sgabellino)
 - [ ] s01-bacinella-1…N.png — fotogrammi
-- [ ] s01-scaffale.png — scaffale a tre ripiani, vuoto
-- [ ] s01-ampolla-fratello-1.png — barattolo con la testa di Luana (etichetta vuota)
-- [ ] s01-ampolla-fratello-2.png — barattolo con la testa di Raffaele (etichetta vuota)
-- [ ] s01-barattolo-tette.png — vuoto, polvere e ragnatela (etichetta vuota)
-- [ ] s01-barattolo-ricci.png — vuoto, un solo ricciolo sul fondo (etichetta vuota)
-- [ ] s01-barattolo-allergie.png — pieno zeppo di polline (etichetta vuota)
-- [ ] s01-barattolo-altezza.png — quasi vuoto, tacche da righello (etichetta vuota)
-- [ ] s01-barattolo-bunda.png — settimo barattolo, ripiano basso al centro (etichetta vuota; testo provvisorio «BUNDA · ESAURITA»)
-- [ ] s01-bolle-bacinella.png — extra: bolle da sovrapporre alla bacinella (facoltativa)
-- [ ] s01-ampolla.png — ampolla dei traumi piena
-- [ ] s01-ampolla-crepata.png
-- [ ] s01-liquido.png
+- [x] s01-scaffale.png — scaffale a tre ripiani, vuoto
+- [x] s01-ampolla-fratello-1.png — barattolo con la testa di Luana (etichetta vuota)
+- [x] s01-ampolla-fratello-2.png — barattolo con la testa di Raffaele (etichetta vuota)
+- [x] s01-barattolo-tette.png — vuoto, polvere e ragnatela (etichetta vuota)
+- [x] s01-barattolo-ricci.png — vuoto, un solo ricciolo sul fondo (etichetta vuota)
+- [x] s01-barattolo-allergie.png — pieno zeppo di polline (etichetta vuota)
+- [x] s01-barattolo-altezza.png — quasi vuoto, tacche da righello (etichetta vuota)
+- [x] s01-barattolo-bunda.png — settimo barattolo, ripiano basso al centro (etichetta vuota; testo provvisorio «BUNDA · ESAURITA»)
+- [x] s01-bolle-bacinella.png — extra: bolle da sovrapporre alla bacinella (facoltativa)
+- [x] s01-ampolla.png — ampolla dei traumi piena
+- [x] s01-ampolla-crepata.png
+- [x] s01-liquido.png
 - [ ] s01-pandeiro.png — cade nella bacinella alla b1 (12vh)
-- [ ] s01-note.png — (nel file da smistare si chiama `nota.png`) una nota sola: il codice la clona 4 volte (4–8vh)
+- [x] s01-note.png — (nel file da smistare si chiama `nota.png`) una nota sola: il codice la clona 4 volte (4–8vh)
 - [ ] s01-scaglie.png
 - [ ] s01-fumetto-1.png — coda in basso a sinistra (papà), vuoto
 - [ ] s01-fumetto-2.png — coda in basso a destra (mamma), vuoto: se c'è solo `s01-fumetto.png`, il secondo è lo specchio orizzontale del primo
-- [ ] s01-cate-neonata.png
+- [x] s01-cate-neonata.png
 
 ## S02 — `assets/img/s02/`
 

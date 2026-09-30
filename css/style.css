@@ -1374,3 +1374,42 @@ html.is-deep { overflow: hidden; }
 
 /* S01: l'etichetta dell'ampolla solo se c'è l'ampolla vera */
 .s01-ampolla-wrapper:not(:has(.s01-ampolla-glass.is-loaded)) .s01-ampolla-label { display: none; }
+
+/* ── S01 con gli asset veri (30/09) ─────────────────────────
+   Genitori 939×1400 · scaffale 939×1400 (piani a y 500/790/1060 → 64.3/43.6/24.3% da sotto; interno x 22–78%)
+   · barattoli e ampolle 403×600. Lo scaffale è alto 58vh (tela), i barattoli 8vh. */
+.s01-parent { aspect-ratio: 939 / 1400; }
+[data-layer="s01"] { --parent-w: calc(var(--parent-h) * 939 / 1400); }
+.s01-scaffale-area {
+  height: 58vh;
+  aspect-ratio: 939 / 1400;
+  left: max(0.5vw, calc(10% - 19.5vh));
+}
+.s01-vaso { height: 8vh; aspect-ratio: 403 / 600; }
+.s01-ripiano-alto   { bottom: calc(64.3% - 0.7vh); }
+.s01-ripiano-centro { bottom: calc(43.6% - 0.7vh); }
+.s01-ripiano-basso  { bottom: calc(24.3% - 0.7vh); }
+.s01-vaso.s01-sx    { left: 25%; }
+.s01-vaso.s01-dx    { right: 25%; }
+.s01-vaso.s01-mezzo { left: calc(50% - 8vh * 403 / 600 / 2); }
+.s01-ripiano-alto.s01-sx, .s01-ripiano-centro.s01-sx { left: 27%; }
+.s01-ripiano-alto.s01-dx { right: 27%; }
+.s01-ripiano-centro.s01-mezzo { left: 50%; }
+.s01-ampolla-wrapper {
+  bottom: calc(43.6% - 1vh);
+  right: 2%;
+  height: 11vh;
+  aspect-ratio: 470 / 700;
+}
+.s01-ampolla-label { display: none; }                 /* «TRAUMA» è già disegnato sull'ampolla crepata */
+.s01-ampolla-liquid-wrap { z-index: 4; }              /* il liquido cola davanti all'ampolla */
+/* posa «drop» (b1: il pandeiro le scappa di mano), tra pandeiro e mescola; --drop 0 → 1 → 0 */
+.s01-mamma-drop { opacity: var(--drop, 0); }
+.s01-mamma-drop:not(.is-loaded) { display: none; }
+.s01-layer:has(> .s01-mamma-pandeiro.is-loaded) > .s01-mamma-mescola > * { opacity: calc(1 - var(--pand, 0) - var(--drop, 0)); }
+
+/* fumetti S01 con l'immagine vera (700×700): più grandi, la scritta va a capo dentro la nuvola */
+.s01-fumetto { height: 18vh; aspect-ratio: 1 / 1; }
+.s01-fumetto-1 { left: calc(36% - 9vh); }
+.s01-fumetto-2 { left: calc(64% - 9vh); }
+.s01-fumetto-text { white-space: normal; width: 70%; text-align: center; font-size: clamp(0.7rem, 2vh, 1.1rem); line-height: 1.05; }

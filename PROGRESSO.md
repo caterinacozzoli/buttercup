@@ -263,3 +263,4 @@ s01-bacinella · s02-culla, -culla-piena, -culla-piena-vomito (da `_vomito`), -c
 **Da sapere**:
 - Col server locale (`python3 -m http.server`) il video non si può mandare avanti/indietro (niente richieste Range); su GitHub Pages sì.
 - Le canzoni sono brani veri (canzone-5 è Creep): CLAUDE.md vieta musica protetta da copyright. Su un sito pubblico è un rischio: decidi tu.
+- 30/09: S01 completa con gli asset di Caterina (ridimensionati per il web, originali in sorgenti/originali/s01): genitori con tutte le pose (anche mamma-pandeiro → drop → mescola in b1, mamma-oops = confusa), scaffale con i piani misurati, 7 barattoli, ampolla/crepata/liquido, fumetto, nota, neonata. Senza «Ciao» iniziale, sfondo neutro. Strumento sposta solo in locale (js/sposta.js fuori da git).

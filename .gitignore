@@ -13,3 +13,5 @@ BRUTTA_FATTA
 da-smistare/
 # copie dal portfolio non usate dal sito
 assets/img/non-assegnati/
+# strumento di impaginazione: solo in locale
+js/sposta.js

@@ -830,13 +830,14 @@
       gsap.set(q('.s01-pandeiro'), { y: '-110vh', autoAlpha: 0 });
       gsap.set(q('.s01-scaglie'), { autoAlpha: 0 });
       gsap.set(q('.s01-fumetto'), { autoAlpha: 0, scale: 0.3 });
-      gsap.set(q('.s01-ampolla-liquid-wrap'), { clipPath: 'inset(0% 0% 0% 0%)' });
+      gsap.set(q('.s01-ampolla-liquid-wrap'), { clipPath: 'inset(0% 0% 100% 0%)' });   /* il liquido non c'è ancora */
       gsap.set(bits, { autoAlpha: 0, scale: 0 });
 
       /* b1 — (se c'è s01-mamma-pandeiro: a metà battuta il pandeiro le vola via di mano e lei passa a mescola) */
       var mamma = L.querySelector('.s01-mamma');
-      gsap.set(mamma, { '--pand': 1 });
-      tl.to(mamma, { '--pand': 0, duration: D('b1', 0.04), ease: 'none' }, T('b1', 0.45));
+      gsap.set(mamma, { '--pand': 1, '--drop': 0 });
+      tl.to(mamma, { '--pand': 0, '--drop': 1, duration: D('b1', 0.04), ease: 'none' }, T('b1', 0.45));   /* le scappa di mano */
+      tl.to(mamma, { '--drop': 0, duration: D('b1', 0.04), ease: 'none' }, T('b1', 0.75));                /* torna a mescolare */
       /* il pandeiro cade ruotando un po' nella bacinella e sparisce dietro il bordo: tuffo */
       fromToIn(tl, q('.s01-pandeiro'), { y: '-110vh', autoAlpha: 1, rotation: -20 },
         { y: '14vh', rotation: 25, duration: D('b1', 0.35), ease: 'power2.in', immediateRender: false }, T('b1', 0.45));
@@ -887,7 +888,8 @@
       tl.to(q('.s01-ampolla-cracked'), { autoAlpha: 1, duration: D('b6', 0.06) }, T('b6', 0.15));
 
       /* b7 — il liquido scende e scopre l'etichetta; la bacinella trema (la mamma si ferma: vedi anims) */
-      tl.to(q('.s01-ampolla-liquid-wrap'), { clipPath: 'inset(100% 0% 0% 0%)', duration: D('b7', 0.4), ease: 'power1.in' }, T('b7'));
+      /* b7: dall'ampolla crepata cola il liquido nero (s01-liquido), dall'alto verso il ripiano */
+      tl.to(q('.s01-ampolla-liquid-wrap'), { clipPath: 'inset(0% 0% 0% 0%)', duration: D('b7', 0.45), ease: 'power1.in' }, T('b7'));
       tl.to(q('.s01-bacinella-area'), { keyframes: { x: ['0.6vh', '-0.6vh', '0.6vh', '-0.6vh', '0.4vh', '0vh'] },
         duration: D('b7', 0.35), ease: 'none' }, T('b7', 0.3));
 
