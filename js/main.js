@@ -834,7 +834,7 @@
       gsap.set(q('.s01-papa-grana, .s01-papa-oops, .s01-papa-confuso, .s01-mamma-confusa, .s01-ampolla-cracked'), { autoAlpha: 0 });
       gsap.set(q('.s01-pandeiro'), { y: '-110vh', autoAlpha: 0 });
       gsap.set(q('.s01-scaglie'), { autoAlpha: 0 });
-      gsap.set(q('.s01-fumetto'), { autoAlpha: 0, scale: 0.3 });
+      gsap.set(q('.s01-parola'), { autoAlpha: 0 });
       gsap.set(q('.s01-ampolla-liquid-wrap'), { clipPath: 'inset(0% 0% 100% 0%)' });   /* il liquido non c'è ancora */
       gsap.set(bits, { autoAlpha: 0, scale: 0 });
 
@@ -870,13 +870,14 @@
       tl.fromTo(q('.s01-scaglie'), { x: '-10vw', y: '-9vh' },
         { x: '0vw', y: '8vh', duration: D('b3', 0.4), ease: 'power1.in', immediateRender: false }, T('b3', 0.3));
 
-      /* b3 — fumetti: papà «Buongiorno!», mamma «Buona giornata!», poi cadono nella bacinella */
-      tl.fromTo(q('.s01-fumetto-1'), { autoAlpha: 0, scale: 0.3 },
-        { autoAlpha: 1, scale: 1, duration: D('b3', 0.2), ease: 'back.out(1.6)', immediateRender: false }, T('b3'));
-      tl.fromTo(q('.s01-fumetto-2'), { autoAlpha: 0, scale: 0.3 },
-        { autoAlpha: 1, scale: 1, duration: D('b3', 0.2), ease: 'back.out(1.6)', immediateRender: false }, T('b3', 0.08));
-      tl.to(q('.s01-fumetto-1'), { x: '14vw', y: '24vh', scale: 0.35, autoAlpha: 0, duration: D('b3', 0.2), ease: 'power2.in' }, T('b3', 0.78));
-      tl.to(q('.s01-fumetto-2'), { x: '-14vw', y: '24vh', scale: 0.35, autoAlpha: 0, duration: D('b3', 0.2), ease: 'power2.in' }, T('b3', 0.8));
+      /* b3 — «Buongiorno!», «Buona giornata!», «Buon lavoro!» compaiono nell'aria sopra la bacinella,
+         poi ci cadono dentro una dopo l'altra e spariscono dietro il bordo */
+      q('.s01-parola').forEach(function (p, i) {
+        var pos = [{ x: '-24vh', y: '-34vh', r: -6 }, { x: '0vh', y: '-42vh', r: 3 }, { x: '24vh', y: '-34vh', r: 7 }][i];
+        fromToIn(tl, p, { autoAlpha: 1, x: pos.x, y: pos.y, rotation: pos.r, scale: 0.3 },
+          { scale: 1, duration: D('b3', 0.15), ease: 'back.out(1.8)', immediateRender: false }, T('b3', i * 0.12));
+        tl.to(p, { x: '0vh', y: '14vh', rotation: pos.r * -2, scale: 0.7, duration: D('b3', 0.2), ease: 'power2.in' }, T('b3', 0.6 + i * 0.1));
+      });
 
       /* b4 — entrambi mescolano (il papà lascia il grana) */
       swap('.s01-papa-grana', '.s01-papa-mescola', T('b4'), D('b4', 0.12));
@@ -907,10 +908,8 @@
       }, T('b8', 0.05));
       tl.to(bits, { autoAlpha: 0, duration: D('b8', 0.15), stagger: D('b8', 0.1) / bits.length }, T('b8', 0.6));
 
-      /* al cambio scena cade tutto (i fumetti sono già spariti e hanno y occupata) */
-      sc.exitTargets = Array.prototype.filter.call(L.children, function (c) {
-        return !c.classList.contains('s01-fumetto');
-      }).map(function (c) { return { el: c, fx: 'legacy' }; });
+      /* al cambio scena cade tutto */
+      sc.exitTargets = Array.prototype.map.call(L.children, function (c) { return { el: c, fx: 'legacy' }; });
     },
 
     /* ── S02 — Il nome ────────────────────────────────── */
@@ -1210,7 +1209,6 @@
   var btnMusic = document.getElementById('btn-music');
   var subBar   = document.getElementById('subtitle-bar');
   var subText  = document.getElementById('subtitle-text');
-  var audioNotice = document.getElementById('audio-unlock');
 
   applySubtitlePref();
   applyVoicePref();
@@ -1255,14 +1253,9 @@
   function applyVoicePref() {
     btnVoice.setAttribute('aria-checked', voiceOn);
     btnMusic.setAttribute('aria-checked', musicOn);
-    audioNotice.classList.toggle('hidden', !((voiceOn || musicOn) && !audioUnlocked));
   }
 
-  function unlockAudio() {
-    if (audioUnlocked) return;
-    audioUnlocked = true;
-    audioNotice.classList.add('hidden');
-  }
+  function unlockAudio() { audioUnlocked = true; }
   document.addEventListener('click', unlockAudio);
   document.addEventListener('keydown', unlockAudio);
 

@@ -53,8 +53,9 @@ Scelte generali della bozza:
 | s01-b6 | …aggiunsero per sbaglio un ingrediente in più. | …acrescentaram sem querer um ingrediente a mais. | |
 | s01-b7 | Una vagonata di traumi. | Um caminhão de traumas. | *um caminhão de* = modo di dire brasiliano per "una vagonata" |
 | s01-b8 | E così nacque Caterina. | E assim nasceu Caterina. | |
-| s01-fumetto-1 | Buongiorno! | Bom dia! | fumetto del papà |
-| s01-fumetto-2 | Buona giornata! | Tenha um bom dia! | fumetto della mamma (richiamato dal finale) |
+| s01-fumetto-1 | Buongiorno! | Bom dia! | cartellino che cade nella bacinella (b3) |
+| s01-fumetto-2 | Buona giornata! | Tenha um bom dia! | cartellino che cade nella bacinella (b3; richiamato dal finale) |
+| s01-fumetto-3 | Buon lavoro! | Bom trabalho! | **nuova, da approvare** (cartellino b3) |
 | s01-etichetta | UNA VAGONATA DI TRAUMI | UM CAMINHÃO DE TRAUMAS | etichetta dell'ampolla |
 | s01-barattolo-1 | TEST 1 · LUANA · 1996 | TESTE 1 · LUANA · 1996 | etichetta del barattolo |
 | s01-barattolo-2 | TEST 2 · RAFFAELE · 1998 | TESTE 2 · RAFFAELE · 1998 | etichetta del barattolo |

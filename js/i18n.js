@@ -67,6 +67,7 @@ window.I18N = {
       "s01-b8": "E assim nasceu Caterina.",
       "s01-fumetto-1": "Bom dia!",
       "s01-fumetto-2": "Tenha um bom dia!",
+      "s01-fumetto-3": "[A DEFINIR]",
       "s01-etichetta": "UM CAMINHÃO DE TRAUMAS",
       "s01-barattolo-1": "TESTE 1 · LUANA · 1996",
       "s01-barattolo-2": "TESTE 2 · RAFFAELE · 1998",

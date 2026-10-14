@@ -1470,6 +1470,19 @@ html.is-deep { overflow: hidden; }
 .s01-vaso[data-i18n-label="s01-barattolo-altezza"]  { --x: 67.7%; --b: 20.9%; }
 .s01-ampolla-wrapper { height: 32.6vh; bottom: calc(43.6% - 1.5vh); }
 
+/* b3: parole su cartellini di carta che cadono nella bacinella (niente nuvolette) */
+.s01-parola {
+  width: max-content;
+  padding: 0.35em 0.7em;
+  border-radius: 4px;
+  background: var(--tex) center / 160px, var(--c-carta);
+  background-blend-mode: multiply, normal;
+  box-shadow: 0 0.4vh 1vh rgba(33, 37, 41, 0.3);
+  font: 700 clamp(1rem, 3.6vh, 2rem)/1 var(--ff-display);
+  color: var(--c-inchiostro);
+  white-space: nowrap;
+}
+
 /* linguette della barra in alto il 20% più grandi (sopra i 640px) */
 @media (min-width: 641px) {
   .progress__tab { --th: 21.6px; --len: 67px; font-size: 0.75rem; }
