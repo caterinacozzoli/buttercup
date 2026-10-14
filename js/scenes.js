@@ -58,7 +58,7 @@ window.SCENES = [
     id: 's01', title: 'La ricetta', short: "La ricetta", cateH: 18,
     beats: [
       { id: 'b0', len: 60, text: null },
-      { id: 'b1', len: 60, text: 'Bossa nova.' },
+      { id: 'b1', len: 60, text: 'Bossa nova e samba.' },
       { id: 'b2', len: 60, text: 'Parmigiano reggiano.' },
       { id: 'b3', len: 90, text: 'Tanti «buongiorno» e «buona giornata».' },
       { id: 'b4', len: 90, text: 'Questi erano gli ingredienti per creare una bambina serena.' },
@@ -66,7 +66,7 @@ window.SCENES = [
       { id: 'b6', len: 90, text: '…aggiunsero per sbaglio un ingrediente in più.' },
       { id: 'b7', len: 60, text: 'Una vagonata di traumi.' },
       { id: 'b8', len: 90, text: 'E così nacque Caterina.',
-        move: { how: 'nasce', img: 's01-cate-neonata', x: 50, y: 40, h: 18, at: 0.05, d: 0.45 } },
+        move: { how: 'nasce', img: 's01-cate-neonata', x: 51.5, y: 53.6, h: 18.6, at: 0.05, d: 0.45 } },
     ],
     items: [],
     /* gesti a fotogrammi (sistema unico, vedi main.js): per ora frames 0 = immagini ferme */
@@ -78,6 +78,11 @@ window.SCENES = [
       { file: 's01-mamma-mescola', frames: 0, fps: 6, da: 'b0', a: 'b7', fermo: 1 },   /* alla b7 si ferma sul fotogramma 1 */
       { file: 's01-bacinella',     frames: 0, fps: 8, da: 'b0', a: null },   /* brodaglia, fumo e bolle: tutta la scena */
     ],
+    /* canzone-7 su b1 (pandeiro, da 00:28), canzone-6 su b2 (grana, da 00:37); 4 secondi reali ciascuna */
+    music: [
+      { file: 'canzone-7', da: 'b1', taglio: { b: 'b2', at: 0 }, vol: 0.5, inizio: 28, duraMax: 4 },
+      { file: 'canzone-6', da: 'b2', taglio: { b: 'b3', at: 0 }, vol: 0.5, inizio: 37, duraMax: 4 },
+    ],
   },
 
   /* ── S02 — Il nome ────────────────────────────────────
@@ -87,7 +92,7 @@ window.SCENES = [
     id: 's02', title: 'Il nome', short: "Il nome", bg: '#fcfbfa', cateH: 18,
     beats: [
       /* la neonata scende nella culla, poi sparisce: la culla passa a "piena" */
-      { id: 'c', len: 60, move: [{ x: 40, y: 22, h: 18, at: 0.4, d: 0.4 }, { how: 'sparisce', at: 0.85, d: 0.1 }] },
+      { id: 'c', len: 60, move: [{ x: 41.5, y: 34.6, h: 18, at: 0.4, d: 0.4 }, { how: 'sparisce', at: 0.85, d: 0.1 }] },
       { id: 'b1', len: 60, text: "Però «Caterina» non era un nome abbastanza da vecchia." },
       { id: 'b2', len: 60, text: "Così aggiunsero anche Maria." },
       { id: 'b3', len: 60, text: "Senza virgola." },
@@ -99,22 +104,19 @@ window.SCENES = [
     ],
     items: [
       /* tre culle sulla stessa tela: si sostituiscono senza salti */
-      { id: 'culla', x: 40, h: 22, r: 340 / 507, z: 35, in: { b: 'c', fx: 'spunta', at: 0.55, d: 0.15 },   /* dopo che la scena 1 è caduta */ out: { b: 'c', fx: 'sfuma', at: 0.85, d: 0.1 } },
-      { id: 'culla-piena', x: 40, h: 22, r: 340 / 507, z: 35, in: { b: 'c', fx: 'sfuma', at: 0.85, d: 0.1 },
+      { id: 'culla', x: 33.6, y: 33.4, h: 37.65, r: 340 / 507, z: 35, in: { b: 'c', fx: 'spunta', at: 0.55, d: 0.15 },   /* dopo che la scena 1 è caduta */ out: { b: 'c', fx: 'sfuma', at: 0.85, d: 0.1 } },
+      { id: 'culla-piena', x: 33.6, y: 33.4, h: 37.65, r: 340 / 507, z: 35, in: { b: 'c', fx: 'sfuma', at: 0.85, d: 0.1 },
         out: { b: 'b2', fx: 'sfuma', at: 0.3, d: 0.08 } },
-      { id: 'culla-piena-vomito', x: 40, h: 22, r: 340 / 507, z: 35, in: { b: 'b2', fx: 'sfuma', at: 0.3, d: 0.08 },
+      { id: 'culla-piena-vomito', x: 33.6, y: 33.4, h: 37.65, r: 340 / 507, z: 35, in: { b: 'b2', fx: 'sfuma', at: 0.3, d: 0.08 },
         out: { b: 'b6', fx: 'esce-basso', at: 0, d: 0.25 } },
-      /* certificato sopra la scena (x 50%, al 68%, 30vh): con la virgola appena nata (b1), alla b3 senza (stessa tela) */
-      { id: 'certificato-virgola', x: 50, y: 68, h: 30, r: 600 / 403, z: 22, in: { b: 'b1', fx: 'spunta', at: 0, d: 0.2 },
+      /* certificato (x 57.4%, y 64.5%, h 38.3vh): con la virgola appena nata (b1), alla b3 senza (stessa tela) */
+      { id: 'certificato-virgola', x: 57.4, y: 64.5, h: 38.3, r: 600 / 403, z: 22, in: { b: 'b1', fx: 'spunta', at: 0, d: 0.2 },
         out: { b: 'b3', fx: 'sfuma', at: 0.5, d: 0.01 },
         testo: 'Caterina Maria, Cozzoli — nata a Milano alle ore 14:15 il 20/08/2002' },
-      { id: 'certificato-no-virgola', x: 50, y: 68, h: 30, r: 600 / 403, z: 22, in: { b: 'b3', fx: 'sfuma', at: 0.5, d: 0.01 },
+      { id: 'certificato-no-virgola', x: 57.4, y: 64.5, h: 38.3, r: 600 / 403, z: 22, in: { b: 'b3', fx: 'sfuma', at: 0.5, d: 0.01 },
         out: { b: 'b6', fx: 'esce-dx', at: 0, d: 0.25 } },
-      /* la virgola sopra quella del certificato. Misurata confrontando i due certificati (600×403 px):
-         inchiostro a x 347–351, y 146–157 → centro 49.5 px a destra e 49.5 px sopra il centro, alta 12 px.
-         Con il certificato a 30vh: 1 px = 30/403 vh → dx = dy = 3.68vh. In s02-virgola.png (60×107) l'inchiostro
-         è alto 76 px: tela = 12 × 107/76 = 16.9 px del certificato → 1.26vh. */
-      { id: 'virgola', x: 50, y: 68, dx: '3.68vh', dy: '3.68vh', h: 1.26, r: 60 / 107, z: 23, in: 'custom', label: ',', labelSeManca: true,
+      /* virgola sopra quella del certificato. Scalata su h cert = 38.3 (prima 30): dx = dy = 3.68*38.3/30 = 4.70vh, h = 1.26*38.3/30 = 1.61vh. */
+      { id: 'virgola', x: 57.4, y: 64.5, dx: '4.70vh', dy: '4.70vh', h: 1.61, r: 60 / 107, z: 23, in: 'custom', label: ',', labelSeManca: true,
         out: { b: 'b3', fx: 'vola-dx', at: 0.82, d: 0.15 } },
       { id: 'fumetto', kind: 'fumetto', file: 's01-fumetto', label: "Scusi, è un po' lungo da scrivere", x: 78, y: 78, h: 14, r: 1.6,
         in: 'b5 entra-dx', out: { b: 'b6', fx: 'esce-dx', at: 0, d: 0.25 } },

@@ -11,7 +11,7 @@ Le battute senza testo (cambi scena e momenti muti) non hanno audio.
 
 | File audio | Testo (voce e sottotitolo) |
 |---|---|
-| s01-b1.mp3 | Bossa nova. |
+| s01-b1.mp3 | Bossa nova e samba. |
 | s01-b2.mp3 | Parmigiano reggiano. |
 | s01-b3.mp3 | Tanti «buongiorno» e «buona giornata». |
 | s01-b4.mp3 | Questi erano gli ingredienti per creare una bambina serena. |

@@ -57,7 +57,7 @@ window.I18N = {
     },
     testi: {
       "s00-cartello": "Oi",
-      "s01-b1": "Bossa nova.",
+      "s01-b1": "Bossa nova e samba.",
       "s01-b2": "Parmigiano Reggiano.",
       "s01-b3": "Muitos “bom dia” e “tenha um bom dia”.",
       "s01-b4": "Esses eram os ingredientes para criar uma menina serena.",

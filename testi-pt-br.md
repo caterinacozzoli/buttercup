@@ -45,7 +45,7 @@ Scelte generali della bozza:
 
 | chiave | italiano | PT-BR | nota |
 |---|---|---|---|
-| s01-b1 | Bossa nova. | Bossa nova. | |
+| s01-b1 | Bossa nova e samba. | Bossa nova e samba. | **da approvare** (aggiunto «samba») |
 | s01-b2 | Parmigiano reggiano. | Parmigiano Reggiano. | alternativa più casalinga: *Queijo parmesão.* |
 | s01-b3 | Tanti «buongiorno» e «buona giornata». | Muitos “bom dia” e “tenha um bom dia”. | |
 | s01-b4 | Questi erano gli ingredienti per creare una bambina serena. | Esses eram os ingredientes para criar uma menina serena. | |

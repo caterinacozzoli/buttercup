@@ -832,7 +832,7 @@
 
       /* stati iniziali: sagome nere, entrambi fermi sulla posa mescola */
       gsap.set(q('.s01-papa-grana, .s01-papa-oops, .s01-papa-confuso, .s01-mamma-confusa, .s01-ampolla-cracked'), { autoAlpha: 0 });
-      gsap.set(q('.s01-pandeiro'), { y: '-110vh', autoAlpha: 0 });
+      gsap.set(q('.s01-pandeiro'), { autoAlpha: 0, transformOrigin: '50% 100%' });
       gsap.set(q('.s01-scaglie'), { autoAlpha: 0 });
       gsap.set(q('.s01-parola'), { autoAlpha: 0, transformOrigin: '50% 100%' });
       gsap.set(q('.s01-ampolla-liquid-wrap'), { clipPath: 'inset(0% 0% 100% 0%)' });   /* il liquido non c'è ancora */
@@ -843,9 +843,10 @@
       gsap.set(mamma, { '--pand': 1, '--drop': 0 });
       tl.to(mamma, { '--pand': 0, '--drop': 1, duration: D('b1', 0.04), ease: 'none' }, T('b1', 0.45));   /* le scappa di mano */
       tl.to(mamma, { '--drop': 0, duration: D('b1', 0.04), ease: 'none' }, T('b1', 0.75));                /* torna a mescolare */
-      /* il pandeiro cade ruotando un po' nella bacinella e sparisce dietro il bordo: tuffo */
-      fromToIn(tl, q('.s01-pandeiro'), { y: '-110vh', autoAlpha: 1, rotation: -20 },
-        { y: '14vh', rotation: 25, duration: D('b1', 0.35), ease: 'power2.in', immediateRender: false }, T('b1', 0.45));
+      /* b1: il pandeiro compare sopra la bacinella (come i cartellini di b3), resta un attimo, poi ci cade dentro */
+      fromToIn(tl, q('.s01-pandeiro'), { autoAlpha: 1, y: '-34vh', rotation: -8, scale: 0.3 },
+        { scale: 1, duration: D('b1', 0.15), ease: 'back.out(1.6)', immediateRender: false }, T('b1', 0.1));
+      tl.to(q('.s01-pandeiro'), { y: '14vh', rotation: 25, scale: 0.7, duration: D('b1', 0.25), ease: 'power2.in' }, T('b1', 0.55));
       tl.to(q('.s01-bacinella'), { scaleY: 0.94, transformOrigin: '50% 100%', duration: D('b1', 0.05), ease: 'power2.out',
         yoyo: true, repeat: 1 }, T('b1', 0.75));
       /* …ed escono 4 note (una sola immagine, clonata) che salgono fino al 75% */
@@ -908,6 +909,19 @@
         duration: D('b8', 0.25), stagger: D('b8', 0.2) / bits.length, ease: 'power2.out',
       }, T('b8', 0.05));
       tl.to(bits, { autoAlpha: 0, duration: D('b8', 0.15), stagger: D('b8', 0.1) / bits.length }, T('b8', 0.6));
+
+      /* b1 e b2: per 4 secondi reali appare l'asset a colori (mamma col pandeiro / papà col grana) sotto la sagoma nera.
+         start/end sono percentuali rispetto alla sezione (sc.section): "top+=X% top" / "top+=Y% top". */
+      [{ cls: 'is-flash-mamma', b: 'b1' }, { cls: 'is-flash-papa', b: 'b2' }].forEach(function (f) {
+        var tmr = null;
+        function on() { L.classList.add(f.cls); clearTimeout(tmr); tmr = setTimeout(function () { L.classList.remove(f.cls); }, 4000); }
+        function off() { clearTimeout(tmr); L.classList.remove(f.cls); }
+        var p0 = sc.labels[f.b] / sc.total * 100, p1 = (sc.labels[f.b] + sc.lens[f.b]) / sc.total * 100;
+        ScrollTrigger.create({
+          trigger: sc.section, start: 'top+=' + p0 + '% top', end: 'top+=' + p1 + '% top',
+          onEnter: on, onEnterBack: on, onLeave: off, onLeaveBack: off,
+        });
+      });
 
       /* al cambio scena cade tutto */
       sc.exitTargets = Array.prototype.map.call(L.children, function (c) { return { el: c, fx: 'legacy' }; });
@@ -1286,13 +1300,15 @@
   var songs = [];
   SCENES.forEach(function (sc) {
     if (!sc.music) return;
-    var t = { sc: sc, m: sc.music, a: new Audio(), broken: false };
-    t.a.preload = 'none';
-    t.a.loop = true;
-    t.a.volume = 0;
-    t.a.addEventListener('error', function () { t.broken = true; });
-    t.a.src = 'assets/musica/' + sc.music.file + '.mp3';
-    songs.push(t);
+    (Array.isArray(sc.music) ? sc.music : [sc.music]).forEach(function (m) {
+      var t = { sc: sc, m: m, a: new Audio(), broken: false };
+      t.a.preload = 'none';
+      t.a.loop = !m.duraMax;                             /* finestra breve: non in loop, si ferma dopo duraMax */
+      t.a.volume = 0;
+      t.a.addEventListener('error', function () { t.broken = true; });
+      t.a.src = 'assets/musica/' + m.file + '.mp3';
+      songs.push(t);
+    });
   });
   function sceneById(id) { return SCENES.filter(function (s) { return s.id === id; })[0]; }
   function scrollAt(sc, b, f) {
@@ -1331,11 +1347,18 @@
       var r = trackRange(t), inside = y >= r[0] && y < r[1];
       if (t.m.taglio && y >= r[1]) { if (!t.a.paused) t.a.pause(); t.a.volume = 0; return; }   /* il nero: silenzio */
       var target = 0;
+      /* durata reale limitata (duraMax): parte da «inizio», dopo duraMax secondi stop e muto fino a riavvolgere */
+      if (t.m.duraMax && inside && t.a.currentTime >= (t.m.inizio || 0) + t.m.duraMax) {
+        t.a.pause(); t.a.currentTime = (t.m.inizio || 0) + t.m.duraMax; t.a.volume = 0; return;
+      }
       if (inside && musicOn && audioUnlocked && !t.broken && !videoPlaying) {
         var mix = trackMix(t, y);
         target = ducking ? Math.min(mix.vol, 0.2) : mix.vol;
         t.a.playbackRate = mix.rate;
-        if (t.a.paused && !document.hidden) t.a.play().catch(function () { t.broken = true; });
+        if (t.a.paused && !document.hidden) {
+          if (t.m.inizio != null && t.a.currentTime < t.m.inizio) t.a.currentTime = t.m.inizio;
+          t.a.play().catch(function () { t.broken = true; });
+        }
       }
       if (t.a.paused) return;
       var step = dt / 1000 * 0.3;                  /* ~1 s per sfumare (da 0.3 a 0) */
@@ -1343,7 +1366,7 @@
       t.a.volume = gsap.utils.clamp(0, 1, v);
       if (target === 0 && t.a.volume <= 0.001) {
         t.a.pause();
-        if (y < r[0]) t.a.currentTime = 0;         /* tornati prima della sua scena: riparte da capo */
+        if (y < r[0]) t.a.currentTime = t.m.inizio || 0;   /* tornati prima della sua scena: riparte dal punto di inizio */
       }
     });
   });
