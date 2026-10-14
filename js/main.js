@@ -1086,6 +1086,16 @@
         tl.fromTo(n.tl, { y: '0vh', scale: 1 }, { y: -(40 - 12 - h / 10) + 'vh', scale: 0.2, ease: 'power1.in', duration: d, immediateRender: false }, t0);
         tl.to(n.c, { keyframes: { y: ['0vh', '-2vh', '0vh', '-1.6vh', '0vh', '-1.2vh', '0vh', '-0.8vh', '0vh'] }, ease: 'none', duration: d }, t0);
         tl.to(n.tl, { autoAlpha: 0, duration: D('b4', 0.05) }, t0 + d);
+        /* Maya mentre scappa alterna la posa normale e quella con la scoreggia (stessa tela, sovrapposta) */
+        if (id === 'maya-spalle') {
+          var base = n.c.querySelector('.scene-img'), alt = el('img', 'scene-img', n.c);
+          alt.src = 'assets/img/s14/s14-maya-scoreggia.png'; alt.alt = '';
+          gsap.set(alt, { autoAlpha: 0 });
+          for (var k = 0; k < 6; k++) {
+            tl.set(alt, { autoAlpha: k % 2 ? 0 : 1 }, t0 + d * (0.1 + k * 0.15));
+            tl.set(base, { autoAlpha: k % 2 ? 1 : 0 }, t0 + d * (0.1 + k * 0.15));
+          }
+        }
       });
     },
 
@@ -1169,8 +1179,14 @@
       });
       video.addEventListener('timeupdate', function () {
         if (!mode || !video.duration) return;
-        /* una scritta alla volta, distribuite dal 5% al 95% del video */
-        var f = (video.currentTime / video.duration - 0.05) / 0.9, cur = Math.floor(f * scritte.length);
+        /* una scritta alla volta, a ritmo di lettura (non più spalmate su tutto il video):
+           ~1.6 s + 0.04 s a carattere, tra 2 e 4 s ciascuna, a partire da 0.6 s */
+        var t = video.currentTime - 0.6, cur = scritte.length;
+        for (var i = 0; i < scritte.length; i++) {
+          t -= Math.min(4, Math.max(2, 1.6 + 0.04 * (scritte[i].c.textContent || '').length));
+          if (t < 0) { cur = i; break; }
+        }
+        if (video.currentTime < 0.6) cur = -1;
         scritte.forEach(function (n, i) { show(n, i === cur); });
         var fine = cur >= FINALI;                     /* ultime frasi: nero e solo il logo (il video continua a suonare sotto) */
         show(nero, fine); show(logoN, fine);

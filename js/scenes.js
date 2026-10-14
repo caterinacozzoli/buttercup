@@ -599,6 +599,14 @@ window.SCENES = [
       { id: 'ciondolo-forchetta', attach: true, pos: [[67, 38]], h: 4.5, r: 1, z: 25, rt: 'pendolo', in: { b: 'b2', fx: 'appende', at: 0.5, d: 0.3 }, cambio: 'resta' },
       { id: 'ciondolo-cedro', attach: true, pos: [[26, 40]], h: 4.5, r: 1, z: 25, rt: 'pendolo', in: { b: 'b3', fx: 'appende', at: 0.1, d: 0.25 }, cambio: 'resta' },
       { id: 'ciondolo-microfono', attach: true, pos: [[74, 40]], h: 4.5, r: 1, z: 25, rt: 'pendolo', in: { b: 'b3', fx: 'appende', at: 0.35, d: 0.25 }, cambio: 'resta' },
+      /* in sovrapposizione mentre vengono citati: arte e videogame (b1), cibo (b2), serie tv (b3) */
+      { id: 'arte', file: 's03-tavolozza', x: 18, y: 60, h: 14, r: 1.3, z: 42, rot: -6, in: { b: 'b1', fx: 'spunta', at: 0.35, d: 0.12 }, out: 'b2 esce-sx' },
+      { id: 'videogiochi', files: ['s15-videogiochi-1', 's15-videogiochi-2'], pos: [[82, 58], [22, 30]], h: 16, r: 2400 / 1792, z: 42, rot: [5, -4],
+        in: { b: 'b1', fx: 'spunta', at: 0.6, d: 0.12, stagger: 0.12 }, out: 'b2 sfuma' },
+      { id: 'cucinare', x: 17, y: 62, h: 20, r: 1792 / 2400, z: 42, rot: -5, in: { b: 'b2', fx: 'spunta', at: 0.3, d: 0.12 }, out: 'b3 esce-sx' },
+      { id: 'kebab', x: 22, y: 30, h: 15, r: 2400 / 1792, z: 42, rot: 6, in: { b: 'b2', fx: 'spunta', at: 0.45, d: 0.12 }, out: 'b3 esce-sx' },
+      { id: 'glee', x: 20, y: 62, h: 17, r: 2400 / 1792, z: 42, rot: -4, in: { b: 'b3', fx: 'spunta', at: 0.3, d: 0.12 }, out: 'b4 esce-sx' },
+      { id: 'bojack', x: 80, y: 60, h: 17, r: 2400 / 1792, z: 42, rot: 5, in: { b: 'b3', fx: 'spunta', at: 0.5, d: 0.12 }, out: 'b4 esce-dx' },
       /* una sola tv generica per Glee e Futurama */
       { id: 'ciondolo-tv', attach: true, pos: [[47, 37]], h: 4.5, r: 1, z: 26, rt: 'pendolo', in: { b: 'b3', fx: 'appende', at: 0.6, d: 0.25 }, cambio: 'resta' },
       { id: 'ale', file: 's09-ale', x: 78, h: 55, r: 2 / 3, in: 'b4 spunta' },
