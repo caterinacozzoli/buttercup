@@ -136,8 +136,9 @@ Scelte generali della bozza:
 
 | chiave | italiano | PT-BR | nota |
 |---|---|---|---|
-| s08-b1 | Nel frattempo doveva racimolare i soldi per l'università… | Enquanto isso, precisava juntar dinheiro para a faculdade… | |
-| s08-b2 | …allora è diventata una cameriera. | …então virou garçonete. | |
+| s08-b1 | Ma il volontariato non le avrebbe pagato l'università… | [A DEFINIR] | **nuova** (14/10) |
+| s08-b2 | …allora è diventata una cameriera… | …então virou garçonete… | |
+| s08-b3 | In centro a Milano, tra i bauscia, la notte. | [A DEFINIR] | **nuova** (14/10) |
 | s08-salvadanaio | UNIVERSITÀ | FACULDADE | |
 
 ## S09 — Scienze psicosociali
@@ -156,7 +157,7 @@ Scelte generali della bozza:
 |---|---|---|---|
 | s10-b1 | Per caso o per destino ha scoperto Figma: per un esame di marketing le sembrava inconcepibile ideare un piano social per un'app senza averla tangibile. | Por acaso ou por destino, descobriu o Figma: para uma prova de marketing, achava inconcebível criar um plano de redes sociais para um app sem tê-lo em mãos. | |
 | s10-b2 | E, per caso o per fortuna, quel progetto è finito al Parlamento Europeo. | E, por acaso ou por sorte, esse projeto foi parar no Parlamento Europeu. | |
-| s10-b3 | Quindi si potrebbe dire che Caterina è stata anche, momentaneamente… una diva? | Então dá pra dizer que Caterina também foi, por um momento… uma diva? | |
+| s10-b3 | Caterina si è sentita momentaneamente fiera di sé, per molto poco. | [A DEFINIR] | **nuova** (14/10) |
 
 ## S11 — I lavoretti
 

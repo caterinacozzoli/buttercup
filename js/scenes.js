@@ -118,7 +118,7 @@ window.SCENES = [
       /* virgola sopra quella del certificato. Scalata su h cert = 38.3 (prima 30): dx = dy = 3.68*38.3/30 = 4.70vh, h = 1.26*38.3/30 = 1.61vh. */
       { id: 'virgola', x: 57.4, y: 64.5, dx: '4.70vh', dy: '4.70vh', h: 1.61, r: 60 / 107, z: 23, in: 'custom', label: ',', labelSeManca: true,
         out: { b: 'b3', fx: 'vola-dx', at: 0.82, d: 0.15 } },
-      { id: 'fumetto', kind: 'fumetto', file: 's01-fumetto', label: "Scusi, è un po' lungo da scrivere", x: 78, y: 78, h: 14, r: 1.6,
+      { id: 'fumetto', kind: 'fumetto', file: 's01-fumetto', label: "Scusi, è un po' lungo da scrivere", x: 21.9, y: 65, h: 21.75, r: 1.6,
         in: 'b5 entra-dx', out: { b: 'b6', fx: 'esce-dx', at: 0, d: 0.25 } },
       { id: 'punto-domanda', x: 50, y: 75, h: 20, r: 260 / 388, rt: 'oscilla', in: { b: 'b7', fx: 'spunta', at: 0.3 },
         cambio: 'sfuma' },
@@ -133,25 +133,12 @@ window.SCENES = [
     beats: [
       { id: 'c', len: 60 },
       { id: 'b1', len: 60, text: "Caterina ha sognato di essere un'artista,", move: { img: 's03-cate-artista' } },
-      { id: 'b2', len: 60, text: "la testa di Art Attack,", move: { img: 's03-cate-bambina' } },
-      { id: 'b3', len: 90, text: "È stata una ginnasta, finché non ha perso una spalla per strada.",
-        move: [
-          { img: 's03-cate-ginnasta', x: 40, how: 'capriola', d: 0.35 },
-          { at: 0.5, how: 'cade', d: 0.35 },
-          { at: 0.65, img: 's03-cate-ginnasta-fasciata' },
-        ] },
-      /* «Poi alle medie»: cambia subito e cresce 35 → 40vh (resta a x 40%: la lente le arriva alla mano) */
-      { id: 'b4', len: 90, text: "Poi alle medie, come se non bastassero occhiali e apparecchio, sognava di fare la restauratrice.",
-        move: { img: 's05-cate-medie', h: 40, d: 0.2 } },
+      { id: 'b2', len: 60, text: "la testa di Art Attack,", move: { img: 's03-cate-testa-attack' } },
     ],
     items: [
       { id: 'cavalletto', x: 28, h: 22, r: 0.7, in: 'b1 entra-sx', out: 'b2 esce-sx' },
       { id: 'tavolozza', x: 38, y: 45, h: 8, r: 1.3, in: 'b1 spunta', out: 'b2 esce-sx' },
-      { id: 'testa-gigante', x: 72, h: 40, r: 0.9, in: 'b2 spunta', out: 'b3 esce-dx' },
-      { id: 'nastro', x: 40, y: 50, h: 15, r: 1, in: 'b3 sfuma', out: { b: 'b4', fx: 'sfuma', at: 0, d: 0.15 } },
-      /* su «restauratrice» (fine della frase); escono all'inizio della b5 (l'uscita di default cadrebbe sopra l'entrata) */
-      { id: 'lente', x: 48, y: 45, h: 12, r: 2002 / 919, z: 35, in: { b: 'b4', fx: 'spunta', at: 0.7, d: 0.12 }, cambio: 'esce-dx' },
-      { id: 'quadro-antico', x: 72, y: 50, h: 25, r: 0.8, in: { b: 'b4', fx: 'entra-dx', at: 0.75, d: 0.2 }, cambio: 'esce-dx' },
+      { id: 'testa-gigante', x: 72, h: 40, r: 0.9, in: 'b2 spunta' },
     ],
   },
 
@@ -161,7 +148,7 @@ window.SCENES = [
     beats: [
       { id: 'c', len: 60 },
       { id: 'b1', len: 90, text: "Molto giovane è diventata percussionista…",
-        move: { img: 's04-cate-percussionista', h: 35, rt: { fx: 'marcia', until: 'end' } } },
+        move: { img: 's04-cate-banda', h: 35, rt: { fx: 'marcia', until: 'end' } } },
       { id: 'b2', len: 60, text: "…umiliata tra le vie di Milano.", move: { h: 28, at: 0.2, d: 0.4 } },
       { id: 'coda', len: 60 },
     ],
@@ -177,24 +164,48 @@ window.SCENES = [
       { id: 'tamburo', file: null, tbd: true, kind: 'testo', cls: 'is-nota',
         label: '[DA DEFINIRE] si nasconde dietro il tamburo', x: 50, y: 50, h: 5, w: 26,
         in: { b: 'b2', fx: 'sfuma', at: 0.3 } },
+      /* bottone cliccabile: apre il video YouTube della banda in una nuova scheda */
+      { id: 'youtube', kind: 'bottone', cls: 'is-yt', label: '▶ Guarda la banda', href: 'https://www.youtube.com/watch?v=HeI_lo1sMgs&t=6s',
+        x: 50, y: 14, h: 8, w: 26, z: 70, in: { b: 'b1', fx: 'spunta', at: 0.3 }, out: { b: 'coda', fx: 'sfuma', at: 0, d: 0.3 } },
     ],
   },
 
-  /* ── S05 — Le medie ───────────────────────────────────── */
+  /* ── Ginnastica (ex S03 b3) ─────────────────────────── */
+  {
+    id: 'sg', title: 'Ginnastica', short: 'Ginnastica', bg: '#ffeba2', cateH: 35,
+    beats: [
+      { id: 'c', len: 60 },
+      { id: 'b1', len: 90, text: "È stata una ginnasta, finché non ha perso una spalla per strada.",
+        move: [
+          { img: 's03-cate-ginnasta', x: 40, how: 'capriola', d: 0.35 },
+          { at: 0.5, how: 'cade', d: 0.35 },
+          { at: 0.65, img: 's03-cate-ginnasta-fasciata' },
+        ] },
+    ],
+    items: [
+      { id: 'nastro', x: 40, y: 50, h: 15, r: 1, in: 'b1 sfuma' },
+    ],
+  },
+
+  /* ── S05 — Le medie (dopo la ginnastica): restauratrice → Alex di Minecraft → «strana».
+     canzone-5 sotto tutta la scena. */
   {
     id: 's05', title: 'Le medie', short: "Le medie", bg: '#d4cdff', cateH: 40,
-    music: { file: 'canzone-5', da: 'c', vol: 0.3 },
+    music: { file: 'canzone-5', da: 'b1', vol: 0.3 },
     orbits: [{ id: 'giro', cx: 50, cy: 60, rx: '24vh', ry: '5vh', period: 6, depth: true }],
     beats: [
       { id: 'c', len: 60 },
-      { id: 'b1', len: 60, text: "Alle medie era solo… beh, strana.", move: { img: 's05-cate-medie', h: 40 } },
-      { id: 'b2', len: 60, text: "E sognava di essere Alex." },
+      { id: 'b1', len: 90, text: "Poi alle medie, come se non bastassero occhiali e apparecchio, sognava di fare la restauratrice.",
+        move: { img: 's05-cate-medie', h: 40, d: 0.2 } },
+      { id: 'b2', len: 60, text: "E ogni tanto nel pensier si fingeva e sperava di essere Alex di Minecraft.",
+        move: { img: 's03-cate-alex-minecraft', h: 40 } },
+      { id: 'b3', len: 60, text: "E fu così che prese l'etichetta di strana." },
     ],
     items: [
-      { id: 'banco', x: 34, h: 18, r: 1.2, in: 'b1 spunta' },
-      { id: 'stranezza', tbd: true, orbit: 'giro', h: 10, r: 1, in: 'b1 spunta' },
-      { id: 'nuvola', x: 60, y: 78, h: 22, r: 1.5, in: 'b2 spunta' },
-      { id: 'cate-blocchi', x: 60, y: 78, h: 14, r: 2 / 3, z: 21, in: { b: 'b2', fx: 'sfuma', at: 0.15 } },
+      { id: 'lente', file: 's03-lente', x: 48, y: 45, h: 12, r: 2002 / 919, z: 35, in: { b: 'b1', fx: 'spunta', at: 0.7, d: 0.12 }, out: 'b2 esce-dx' },
+      { id: 'quadro-antico', file: 's03-quadro-antico', x: 72, y: 50, h: 25, r: 0.8, in: { b: 'b1', fx: 'entra-dx', at: 0.75, d: 0.2 }, out: 'b2 esce-dx' },
+      { id: 'banco', x: 34, h: 18, r: 1.2, in: 'b3 spunta' },
+      { id: 'stranezza', tbd: true, orbit: 'giro', h: 10, r: 1, in: 'b3 spunta' },
     ],
   },
 
@@ -203,14 +214,7 @@ window.SCENES = [
     id: 's06', title: 'Le superiori', short: "Le superiori", bg: '#fed728', cateH: 45,
     beats: [
       { id: 'c', len: 60, move: { x: 40, img: 's03-cate-liceo', h: 45, at: 0.3, d: 0.5 } },
-      /* il judo (spostato qui da S03 il 30/09: viene dopo le medie e Creep): corre sul tatami, judogi, cade */
-      { id: 'b0', len: 90, text: "Ma, per perdere anche l'altra spalla, si è data al judo.",
-        move: [
-          { x: 50, how: 'corre', d: 0.3 },
-          { at: 0.32, img: 's03-cate-judo' },
-          { at: 0.5, how: 'cade', d: 0.4 },
-        ] },
-      { id: 'b1', len: 90, text: "In prima superiore, una maranza non troppo studiosa.",
+      { id: 'b1', len: 90, text: "Stanca di essere bullizzata si è messa le lenti e l'apparecchio, sbloccando nuovi commenti della gente.",
         move: { x: 50, img: 's03-cate-liceo', how: 'cammina', d: 0.6 } },
       { id: 'b2', len: 90, text: "E, per non farsi mancare ulteriore bullismo: teatro e coro della scuola.",
       },
@@ -219,11 +223,18 @@ window.SCENES = [
       { id: 'b4', len: 90, text: "…proprio l'anno prima del «tutti promossi», aka Covid." },
     ],
     items: [
-      { id: 'tatami', x: 50, w: 40, h: 6, in: 'b0 spunta', out: 'b1 esce-basso' },
+      /* commenti cattivi che spuntano sopra Caterina (b1), poi escono alla b2 */
+      { id: 'commento-respira', kind: 'fumetto', label: 'ma respira???', x: 25, y: 72, h: 10, r: 1.6,
+        in: { b: 'b1', fx: 'entra-sx', at: 0.4 }, out: 'b2 esce-sx' },
+      { id: 'commento-mangi', kind: 'fumetto', label: 'ma mangi qualcosa?', x: 78, y: 68, h: 10, r: 1.6,
+        in: { b: 'b1', fx: 'entra-dx', at: 0.55 }, out: 'b2 esce-dx' },
       { id: 'sipario', kind: 'fondale', x: 50, w: 50, h: 60, in: 'b2 scende', out: 'b3 esce-alto' },
       { id: 'leggio-coro', x: 30, h: 22, r: 0.6, in: 'b2 spunta', out: 'b3 esce-basso' },
       { id: 'bulli', kind: 'sagoma', pos: [[12, 'floor'], [88, 'floor']], h: 35, r: 2 / 3,
         in: 'b2 spunta', out: 'b3 esce-lati' },
+      /* b3: nuvoletta di Caterina (coda in basso a sinistra, verso la sua testa) */
+      { id: 'fumetto-terza', kind: 'fumetto', file: 's01-fumetto', label: 'Here we go again', x: 33, y: 76, h: 17, r: 1.2, z: 40,
+        in: { b: 'b3', fx: 'spunta', at: 0.45, d: 0.12 }, out: 'b4 esce-dx' },
       { id: 'pagella-1', file: 's06-pagella', label: '3ª', x: 30, y: 50, h: 18, r: 0.75,
         in: 'b3 cade', out: 'b4 esce-basso' },
       { id: 'pagella-2', file: 's06-pagella', label: '3ª', x: 70, y: 50, h: 18, r: 0.75,
@@ -237,11 +248,55 @@ window.SCENES = [
     ],
   },
 
+  /* ── S08 — La cameriera (fine del liceo) ───────────────────────────────── */
+  {
+    id: 's08', title: 'La cameriera', short: "La cameriera", bg: '#ffeba2', cateH: 45,
+    /* b3 «la notte»: come per la hostess, si fa buio (viola quasi nero) con una vignetta attorno */
+    bgTo: [{ b: 'b3', color: '#1c1230', at: 0, d: 0.35 }],
+    beats: [
+      { id: 'c', len: 60, move: [{ img: 's08-cate-ritorno-lavoro', d: 0.2 }, { x: 50, how: 'cammina', at: 0.3, d: 0.6 }] },
+      { id: 'b1', len: 90, text: "Ma il volontariato non le avrebbe pagato l'università…" },
+      { id: 'b2', len: 90, text: "…allora è diventata una cameriera…",
+        move: [
+          { at: 0.15, x: 44, how: 'corre', d: 0.17 },
+          { at: 0.35, x: 60, how: 'corre', d: 0.17 },
+          { at: 0.55, x: 44, how: 'corre', d: 0.17 },
+          { at: 0.75, x: 60, how: 'corre', d: 0.17 },
+        ] },
+      { id: 'b3', len: 90, text: "In centro a Milano, tra i bauscia, la notte." },
+    ],
+    items: [
+      { id: 'salvadanaio', label: 'UNIVERSITÀ', x: 28, h: 18, r: 1.2, in: 'b1 spunta', out: 'b3 sfuma' },
+      /* b3: buio attorno, solo lei resta in luce */
+      { id: 'vignetta', file: null, cls: 'is-vignetta', x: 50, y: 50, w: 100, h: 100, z: 30, in: { b: 'b3', fx: 'sfuma', at: 0, d: 0.35 } },
+      /* sulla mano destra all'altezza del gomito (55% della figura), sporge a destra */
+      { id: 'vassoio', attach: true, pos: [[84, 55]], h: 10, r: 1.7, fig: true, in: { b: 'b2', fx: 'spunta', at: 0.02 } },
+      { id: 'monete', n: 6, x: 28, y: 32, h: 5, r: 1, round: true, in: 'custom' },
+    ],
+  },
+
+  /* ── Judo (dopo le superiori) ────────────────────── */
+  {
+    id: 'sj', title: 'Il judo', short: 'Judo', bg: '#fed728', cateH: 45,
+    beats: [
+      { id: 'c', len: 60, move: { x: 40, img: 's03-cate-liceo', h: 45, at: 0.3, d: 0.5 } },
+      { id: 'b1', len: 90, text: "Ma, per perdere anche l'altra spalla, si è data al judo.",
+        move: [
+          { x: 50, how: 'corre', d: 0.3 },
+          { at: 0.32, img: 's03-cate-judo' },
+          { at: 0.5, how: 'cade', d: 0.4 },
+        ] },
+    ],
+    items: [
+      { id: 'tatami', x: 50, w: 40, h: 6, in: 'b1 spunta' },
+    ],
+  },
+
   /* ── S07 — La casa momentanea ─────────────────────────── */
   {
     id: 's07', title: 'La casa momentanea', short: "La casa", bg: '#fcfbfa', cateH: 45,
     beats: [
-      { id: 'c', len: 60 },
+      { id: 'c', len: 60, move: { img: 's03-cate-liceo' } },   /* dopo il judo torna quella del liceo */
       { id: 'b1', len: 90, text: "Poi, quando la sua casa si è fatta stretta…",
         move: { how: 'inclina', h: 40, at: 0.3, d: 0.5 } },
       { id: 'b2', len: 90, text: "…ha trovato una casa momentanea in un'associazione magnifica…",
@@ -252,29 +307,11 @@ window.SCENES = [
       /* dietro Caterina, a terra: spunta enorme (85vh) e con lo scroll si rimpicciolisce fino a 18vh (main.js) */
       { id: 'casa-piccola', x: 50, h: 85, r: 1.1, z: 20, fig: true, in: 'b1 spunta', out: 'b2 vola-alto' },
       { id: 'associazione', tbd: true, x: 74, h: 50, r: 0.9, in: 'b2 entra-dx' },
+      /* b2: le facce della famiglia del volontariato, in sovrapposizione in alto, una dopo l'altra */
+      { id: 'famiglia', files: ['s07-famiglia-1', 's07-famiglia-2', 's07-famiglia-3', 's07-famiglia-4', 's07-famiglia-5', 's07-famiglia-6'],
+        pos: [[11, 64], [24, 56], [37, 66], [70, 62], [83, 54], [91, 66]], h: 16, r: 1, z: 40, rot: [-6, 4, -3, 5, -4, 6],
+        in: { b: 'b2', fx: 'spunta', at: 0.25, d: 0.12, stagger: 0.08 } },
       { id: 'persone-associazione', pos: [[38, 'floor'], [88, 'floor']], h: 40, r: 1, in: 'b3 spunta' },
-    ],
-  },
-
-  /* ── S08 — La cameriera ───────────────────────────────── */
-  {
-    id: 's08', title: 'La cameriera', short: "La cameriera", bg: '#ffeba2', cateH: 45,
-    beats: [
-      { id: 'c', len: 60, move: [{ img: 's09-cate-studentessa', d: 0.2 }, { x: 50, how: 'cammina', at: 0.3, d: 0.6 }] },
-      { id: 'b1', len: 90, text: "Nel frattempo doveva racimolare i soldi per l'università…" },
-      { id: 'b2', len: 90, text: "…allora è diventata una cameriera.",
-        move: [
-          { at: 0.15, x: 44, how: 'corre', d: 0.17 },
-          { at: 0.35, x: 60, how: 'corre', d: 0.17 },
-          { at: 0.55, x: 44, how: 'corre', d: 0.17 },
-          { at: 0.75, x: 60, how: 'corre', d: 0.17 },
-        ] },
-    ],
-    items: [
-      { id: 'salvadanaio', label: 'UNIVERSITÀ', x: 28, h: 18, r: 1.2, in: 'b1 spunta' },
-      /* sulla mano destra all'altezza del gomito (55% della figura), sporge a destra */
-      { id: 'vassoio', attach: true, pos: [[84, 55]], h: 10, r: 1.7, fig: true, in: { b: 'b2', fx: 'spunta', at: 0.02 } },
-      { id: 'monete', n: 6, x: 28, y: 32, h: 5, r: 1, round: true, in: 'custom' },
     ],
   },
 
@@ -312,8 +349,8 @@ window.SCENES = [
       { id: 'b1', len: 130, text: "Per caso o per destino ha scoperto Figma: per un esame di marketing le sembrava inconcepibile ideare un piano social per un'app senza averla tangibile.",
       },
       { id: 'b2', len: 90, text: "E, per caso o per fortuna, quel progetto è finito al Parlamento Europeo.",
-        move: { img: 's13-cate-tailleur' } },
-      { id: 'b3', len: 90, text: "Quindi si potrebbe dire che Caterina è stata anche, momentaneamente… una diva?",
+        move: { img: 's10-cate-parlamento' } },
+      { id: 'b3', len: 90, text: "Caterina si è sentita momentaneamente fiera di sé, per molto poco.",
         move: { x: 45, how: 'cammina', d: 0.8 } },
     ],
     items: [
@@ -323,6 +360,9 @@ window.SCENES = [
       { id: 'ui', files: ['s10-ui-1', 's10-ui-2', 's10-ui-3'], pos: [[66, 56], [66, 50], [66, 44]],
         h: 4, r: 2.2, z: 21, in: { b: 'b1', fx: 'spunta', at: 0.3, d: 0.1, stagger: 0.2 } },
       { id: 'parlamento', x: 76, h: 45, r: 1.3, in: 'b2 entra-dx' },
+      /* b2: Marcos e Milla, i compagni del progetto, entrano da sinistra accanto a Caterina */
+      { id: 'marcos', x: 18, h: 36, r: 1696 / 2528, fig: true, z: 22, in: { b: 'b2', fx: 'entra-sx', at: 0.2, d: 0.3 } },
+      { id: 'milla', x: 32, h: 42, r: 1696 / 2528, fig: true, z: 22, in: { b: 'b2', fx: 'entra-sx', at: 0.3, d: 0.3 } },
       { id: 'stelle-ue', ring: { cx: 76, cy: 82, r: 9, n: 12 }, h: 4, r: 1,
         in: { b: 'b2', fx: 'spunta', at: 0.3, d: 0.05, stagger: 0.04 } },
       { id: 'tappeto-rosso', x: 40, w: 60, h: 6, in: 'b3 srotola' },
@@ -425,12 +465,12 @@ window.SCENES = [
       { id: 'coriandoli', confetti: 30, x: 50, y: 50, w: 100, h: 100, z: 36,
         in: { b: 'b1', fx: 'coriandoli', at: 0.05, d: 0.9 }, cambio: 'via' },
       /* b2–b5 */
-      { id: 'computer', kind: 'clic', sheet: 'Esperimento Minecraft', x: 30, y: 30, h: 14, r: 1.3, rot: -4,
+      { id: 'computer', x: 30, y: 30, h: 14, r: 1.3, rot: -4,
         in: 'b2 spunta', cambio: 'via' },
-      { id: 'busta-borsa', kind: 'clic', sheet: "Mail della borsa e app per maranza", x: 70, y: 62, h: 10, r: 1.5, rot: 6,
+      { id: 'busta-borsa', x: 70, y: 62, h: 10, r: 1.5, rot: 6,
         in: 'b3 entra-dx', cambio: 'via' },
       { id: 'libri', x: 36, h: 16, r: 0.8, in: 'custom', cambio: 'via' },
-      { id: 'abilicity-logo', kind: 'clic', sheet: 'Abilicity: articolo', x: 72, y: 40, h: 10, r: 478 / 716, rot: -5,
+      { id: 'abilicity-logo', x: 72, y: 40, h: 10, r: 478 / 716, rot: -5,
         in: 'b5 spunta', cambio: 'via' },
       /* b6 */
       { id: 'telefono-notifiche', x: 26, y: 55, h: 14, r: 0.55, rot: 5, in: 'b6 spunta', cambio: 'via' },
@@ -445,26 +485,32 @@ window.SCENES = [
       { id: 'badge-mediatrice', attach: true, pos: [[60, 66]], h: 5, r: 1, in: 'b7 spunta', cambio: 'via' },
       { id: 'nuvoletta-grigia', attach: true, pos: [[50, 118]], h: 10, r: 1.6, rt: 'oscilla', in: { b: 'b7', fx: 'spunta', at: 0.2 }, cambio: 'via' },
       { id: 'sveglia', x: 64, h: 8, r: 1, rt: 'trema', in: 'b8 spunta', cambio: 'via' },
-      { id: 'progetto-finale', kind: 'clic', sheet: 'Progetto finale: app per daltonici', x: 60, y: 30, h: 12, r: 1.3, rot: 4,
+      { id: 'progetto-finale', x: 60, y: 30, h: 12, r: 1.3, rot: 4,
         in: { b: 'b8', fx: 'entra-dx', at: 0.35, d: 0.45 }, cambio: 'via' },
       /* b9–b10 */
-      { id: 'amico', files: ['s13-amico-1', 's13-amico-2', 's13-amico-3', 's13-amico-4'],
-        pos: [[36, 68], [42, 79], [58, 79], [64, 68]], h: 9, r: 1, round: true, rot: [-8, 5, -5, 8],
+      /* le persone del master: volti di carta in sovrapposizione attorno a lei */
+      { id: 'amico', files: ['s13-amico-master-1', 's13-amico-master-2', 's13-amico-master-3'],
+        pos: [[19, 68], [12, 40], [88, 44]], h: 15, r: 1, z: 37, rot: [-7, 6, 4],
         in: { b: 'b9', fx: 'spunta', at: 0.1, d: 0.12, stagger: 0.15 }, cambio: 'via' },
       { id: 'sticker', cls: 'is-sticker',
         files: ['sticker/sticker-figma', 'sticker/sticker-claude', 'sticker/sticker-miro', 'sticker/sticker-antigravity'],
         pos: [[33, 52], [67, 50], [38, 22], [63, 24]], h: 7, r: 1, z: 36,
         in: { b: 'b10', fx: 'sfuma', at: 0.1, d: 0.05, stagger: 0.15 }, cambio: 'via' },
-      /* b11–b12 */
-      { id: 'avversita', tbd: true, files: ['s13-avversita-1', 's13-avversita-2', 's13-avversita-3'],
-        pos: [[30, 'floor'], [70, 'floor'], [50, 84]], h: 12, r: 1, rot: [-10, 12, -6],
-        in: { b: 'b11', fx: 'cade-pesante', at: 0.05, d: 0.2, stagger: 0.2 }, cambio: 'via' },
-      { id: 'papa-busto', file: 's01-papa-mescola', x: 8, y: 20, h: 25, r: 0.8, in: 'b12 entra-sx', cambio: 'via' },
-      { id: 'mamma-busto', file: 's01-mamma-mescola', x: 92, y: 20, h: 25, r: 0.8, in: 'b12 entra-dx', cambio: 'via' },
-      { id: 'nuvoletta-genitori', kind: 'fumetto', pos: [[18, 50], [82, 50]], h: 12, r: 1.4,
-        in: { b: 'b12', fx: 'spunta', at: 0.25, stagger: 0.08 }, cambio: 'via' },
-      { id: 'problema', tbd: true, files: ['s13-problema-1', 's13-problema-2'], pos: [[18, 50], [82, 50]], h: 8, r: 1,
-        z: 37, in: 'custom', cambio: 'via' },
+      /* b11–b12: le avversità — volti di famiglia, LinkedIn, notifiche e richieste d'aiuto che si accavallano
+         (anche sopra i loghi delle app) mentre tutto si spegne */
+      { id: 'testa-famiglia', cls: 'is-avv',
+        files: ['s01-papa-faccia', 's01-mamma-faccia', 's13-testa-luana', 's13-testa-raffaele'],
+        pos: [[30, 60], [70, 62], [40, 28], [61, 30]], h: 13, r: 1, z: 38, rot: [-8, 7, -5, 6],
+        in: { b: 'b11', fx: 'spunta', at: 0.05, d: 0.12, stagger: 0.12 }, cambio: 'via' },
+      { id: 'linkedin-logo', file: 'sticker/sticker-linkedin', cls: 'is-sticker is-avv', x: 66, y: 46, h: 9, r: 1, z: 39, rot: 8,
+        in: { b: 'b11', fx: 'spunta', at: 0.35, d: 0.1 }, cambio: 'via' },
+      { id: 'notifica', file: null, cls: 'is-badge is-avv', labels: ['99+', '99+', '99+', '99+', '99+'],
+        pos: [[70, 50], [34, 64], [44, 32], [64, 34], [26, 46]], h: 3.6, r: 1.3, z: 40, round: true,
+        in: { b: 'b11', fx: 'spunta', at: 0.45, d: 0.06, stagger: 0.07 }, cambio: 'via' },
+      { id: 'domanda', kind: 'fumetto', file: 's01-fumetto', cls: 'is-avv',
+        labels: ['Cate cosa devo fare?', 'Cate come faccio?', 'Cate mi aiuti?'],
+        pos: [[22, 56], [78, 56], [36, 22]], h: 14, r: 1.2, z: 41, rot: [-4, 5, -3],
+        in: { b: 'b12', fx: 'spunta', at: 0.1, d: 0.1, stagger: 0.18 }, cambio: 'via' },
       /* b13: il nero finale (i cloni li crea main.js) */
       { id: 'nero', file: null, cls: 'is-nero', x: 50, y: 50, w: 100, h: 100, z: 80,
         in: { b: 'b13', fx: 'sfuma', at: 0.76, d: 0.06 }, cambio: 'resta' },

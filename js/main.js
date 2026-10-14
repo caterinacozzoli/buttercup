@@ -546,6 +546,7 @@
       c.addEventListener('click', function () { openSheet(c, c.getAttribute('aria-label'), 'media'); });
     }
     if (it.nome) { c.dataset.i18nLabel = sc.id + '-' + it.id + '-nome'; c.dataset.itLabel = it.nome; }
+    if (it.href) c.addEventListener('click', function () { window.open(it.href, '_blank', 'noopener'); });
     if (it.halves) c.style.clipPath = i ? 'inset(0% 0% 0% 50%)' : 'inset(0% 50% 0% 0%)';
     if (it.confetti) {
       var bits = [];
@@ -738,7 +739,8 @@
     /* elementi (+ approfondimento da S02 a S16; S00 «Ciao» tolto il 30/09) */
     var items = (sc.items || []).slice();
     var first = sc.beats[0].id === 'c' ? sc.beats[1].id : sc.beats[0].id;
-    if (sc.id !== 's01') items.push({ id: 'approfondimento', kind: 'approfondimento', x: 5, y: 9, h: 9, r: 1, in: first + ' spunta' });
+    /* approfondimento visibile solo in S04 banda e S10 parlamento europeo (richiesta del 14/10) */
+    if (sc.id === 's04' || sc.id === 's10') items.push({ id: 'approfondimento', kind: 'approfondimento', x: 5, y: 9, h: 9, r: 1, in: first + ' spunta' });
     items.forEach(function (it) { buildItem(sc, it, tl, T, D); });
 
     /* cambio scena: la scena prima cade giù, lo sfondo sfuma */
@@ -944,12 +946,12 @@
       tl.to(N('certificato-no-virgola')[0].tl, { scale: 38 / 30, duration: D('b4', 0.6), ease: 'power1.inOut' }, T('b4', 0));
     },
 
-    /* ── S03 — I sogni da piccola ─────────────────────── */
-    s03: function (sc, tl, T, D, N) {
-      /* il nastro le volteggia attorno (b3), cade a terra quando cade lei */
+    /* ── Ginnastica ────────────────────────────────────── */
+    sg: function (sc, tl, T, D, N) {
+      /* il nastro le volteggia attorno (b1), cade a terra quando cade lei */
       var nastro = N('nastro')[0].tl;
-      tl.to(nastro, { rotation: 540, x: '6vw', duration: D('b3', 0.35), ease: 'sine.inOut' }, T('b3', 0.12));
-      tl.to(nastro, { y: '30vh', rotation: 620, duration: D('b3', 0.12), ease: 'power2.in' }, T('b3', 0.5));
+      tl.to(nastro, { rotation: 540, x: '6vw', duration: D('b1', 0.35), ease: 'sine.inOut' }, T('b1', 0.12));
+      tl.to(nastro, { y: '30vh', rotation: 620, duration: D('b1', 0.12), ease: 'power2.in' }, T('b1', 0.5));
     },
 
     /* ── S04 — La percussionista ──────────────────────── */
@@ -1023,15 +1025,6 @@
       badge.textContent = '1';
       tl.fromTo(cnt, { v: 1 }, { v: 100, ease: 'power1.in', duration: D('b6', 0.8), immediateRender: false,
         onUpdate: function () { badge.textContent = Math.round(cnt.v); } }, T('b6', 0.15));
-
-      /* b12: da ciascuna nuvoletta cade un problema su Caterina */
-      N('problema').forEach(function (n, i) {
-        var s = i ? -1 : 1;
-        tl.set(n.tl, { autoAlpha: 1 }, T('b12', 0.45 + i * 0.1));
-        tl.fromTo(n.tl, { x: '0vw', y: '0vh' }, { x: s * 28 + 'vw', y: '-16vh', ease: 'power1.out',
-          duration: D('b12', 0.2), immediateRender: false }, T('b12', 0.45 + i * 0.1));
-        tl.to(n.tl, { y: '-2vh', ease: 'power2.in', duration: D('b12', 0.15) }, T('b12', 0.65 + i * 0.1));
-      });
 
       /* b13: tutto si moltiplica (non gli sticker: i loghi restano come sono) — cloni sfalsati, sempre più fitti, fino a coprire la pagina, poi il nero */
       var src = [].slice.call(sc.layer.children).filter(function (r) {

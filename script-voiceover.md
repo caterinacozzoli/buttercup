@@ -77,8 +77,9 @@ Le battute senza testo (cambi scena e momenti muti) non hanno audio.
 
 | File audio | Testo (voce e sottotitolo) |
 |---|---|
-| s08-b1.mp3 | Nel frattempo doveva racimolare i soldi per l'università… |
-| s08-b2.mp3 | …allora è diventata una cameriera. |
+| s08-b1.mp3 | Ma il volontariato non le avrebbe pagato l'università… |
+| s08-b2.mp3 | …allora è diventata una cameriera… |
+| s08-b3.mp3 | In centro a Milano, tra i bauscia, la notte. |
 
 ## S09 — Scienze psicosociali
 
@@ -95,7 +96,7 @@ Le battute senza testo (cambi scena e momenti muti) non hanno audio.
 |---|---|
 | s10-b1.mp3 | Per caso o per destino ha scoperto Figma: per un esame di marketing le sembrava inconcepibile ideare un piano social per un'app senza averla tangibile. |
 | s10-b2.mp3 | E, per caso o per fortuna, quel progetto è finito al Parlamento Europeo. |
-| s10-b3.mp3 | Quindi si potrebbe dire che Caterina è stata anche, momentaneamente… una diva? |
+| s10-b3.mp3 | Caterina si è sentita momentaneamente fiera di sé, per molto poco. |
 
 ## S11 — I lavoretti
 

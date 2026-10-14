@@ -1476,6 +1476,16 @@ html.is-deep { overflow: hidden; }
 [data-layer="s01"].is-flash-mamma .s01-mamma .s01-shadow,
 [data-layer="s01"].is-flash-papa  .s01-papa  .s01-shadow { opacity: 0; }
 
+/* S04: bottone YouTube della banda — rosso con testo bianco grande, cliccabile */
+.item.is-yt .item__c { background: #ff0000; color: #fff; border-radius: 0.6em; padding: 0; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
+.item.is-yt .item__label { color: #fff !important; font-weight: 700; font-size: clamp(0.9rem, 2.6vh, 1.6rem) !important; line-height: 1; white-space: nowrap; max-width: none; padding: 0 0.6em; }
+.item.is-yt .item__c:hover, .item.is-yt .item__c:focus-visible { background: #c00; outline: 2px solid var(--c-inchiostro); }
+
+/* S02 fumetto: SOLO l'immagine della nuvoletta è specchiata (coda a destra) e ingrandita del 40%. Il testo resta leggibile al centro. */
+[data-item="s02-fumetto"] .scene-img,
+[data-item="s02-fumetto"] .placeholder { transform: scaleX(-1) scale(1.4); transform-origin: 50% 60%; }
+[data-item="s02-fumetto"] .item__label { font-size: clamp(0.7rem, 1.6vh, 1rem); line-height: 1.1; padding: 0 1.2em; max-width: 70%; }
+
 /* b3: parole su cartellini di carta che cadono nella bacinella (niente nuvolette) */
 .s01-parola {
   width: max-content;
@@ -1500,3 +1510,21 @@ html.is-deep { overflow: hidden; }
   .controls { top: calc(var(--bar-h) + 80px); }
 }
 
+
+/* S06 b3: «Here we go again» a sinistra di Caterina, nuvoletta specchiata (coda verso di lei) */
+[data-item="s06-fumetto-terza"] .scene-img { transform: scaleX(-1); }
+[data-item="s06-fumetto-terza"] .item__label { font-size: clamp(0.8rem, 2.4vh, 1.4rem) !important; max-width: 52%; white-space: normal; line-height: 1.05; margin-bottom: 4%; }
+
+/* S08 b3: la notte da cameriera — buio con vignetta, solo il centro resta in luce (come la hostess) */
+.item.is-vignetta { pointer-events: none; }
+.item.is-vignetta .card {
+  border-radius: 0;
+  box-shadow: none;
+  background: radial-gradient(ellipse 34% 52% at 59% 55%, transparent 0%, rgba(12, 6, 24, 0.55) 55%, rgba(8, 4, 16, 0.94) 100%);
+}
+.item.is-vignetta .card::after { opacity: 0.25; }
+
+/* le avversità si spengono con la scena */
+.item.is-avv .item__c { filter: saturate(0.55) brightness(0.88); }
+.item.is-avv.is-badge .item__c { filter: none; }
+[data-item^="s13-domanda"] .item__label { font-size: clamp(0.7rem, 2vh, 1.15rem) !important; max-width: 60%; white-space: normal; line-height: 1.05; margin-bottom: 6%; }
