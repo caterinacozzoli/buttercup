@@ -834,7 +834,7 @@
       gsap.set(q('.s01-papa-grana, .s01-papa-oops, .s01-papa-confuso, .s01-mamma-confusa, .s01-ampolla-cracked'), { autoAlpha: 0 });
       gsap.set(q('.s01-pandeiro'), { y: '-110vh', autoAlpha: 0 });
       gsap.set(q('.s01-scaglie'), { autoAlpha: 0 });
-      gsap.set(q('.s01-parola'), { autoAlpha: 0 });
+      gsap.set(q('.s01-parola'), { autoAlpha: 0, transformOrigin: '50% 100%' });
       gsap.set(q('.s01-ampolla-liquid-wrap'), { clipPath: 'inset(0% 0% 100% 0%)' });   /* il liquido non c'è ancora */
       gsap.set(bits, { autoAlpha: 0, scale: 0 });
 
@@ -872,11 +872,12 @@
 
       /* b3 — «Buongiorno!», «Buona giornata!», «Buon lavoro!» compaiono nell'aria sopra la bacinella,
          poi ci cadono dentro una dopo l'altra e spariscono dietro il bordo */
+      /* x, y = posizione nell'aria in vh dal centro del bordo (y negativa = sopra); s = scala (da sposta.js) */
       q('.s01-parola').forEach(function (p, i) {
-        var pos = [{ x: '-24vh', y: '-34vh', r: -6 }, { x: '0vh', y: '-42vh', r: 3 }, { x: '24vh', y: '-34vh', r: 7 }][i];
-        fromToIn(tl, p, { autoAlpha: 1, x: pos.x, y: pos.y, rotation: pos.r, scale: 0.3 },
-          { scale: 1, duration: D('b3', 0.15), ease: 'back.out(1.8)', immediateRender: false }, T('b3', i * 0.12));
-        tl.to(p, { x: '0vh', y: '14vh', rotation: pos.r * -2, scale: 0.7, duration: D('b3', 0.2), ease: 'power2.in' }, T('b3', 0.6 + i * 0.1));
+        var pos = [{ x: -24, y: -34, r: -6, s: 1 }, { x: 0, y: -42, r: 3, s: 1 }, { x: 24, y: -34, r: 7, s: 1 }][i];
+        fromToIn(tl, p, { autoAlpha: 1, x: pos.x + 'vh', y: pos.y + 'vh', rotation: pos.r, scale: 0.3 * pos.s },
+          { scale: pos.s, duration: D('b3', 0.15), ease: 'back.out(1.8)', immediateRender: false }, T('b3', i * 0.12));
+        tl.to(p, { x: '0vh', y: '14vh', rotation: pos.r * -2, scale: 0.7 * pos.s, duration: D('b3', 0.2), ease: 'power2.in' }, T('b3', 0.6 + i * 0.1));
       });
 
       /* b4 — entrambi mescolano (il papà lascia il grana) */

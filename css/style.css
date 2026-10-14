@@ -1468,7 +1468,7 @@ html.is-deep { overflow: hidden; }
 .s01-vaso[data-i18n-label="s01-barattolo-allergie"] { --x: 27.7%; --b: 21%; }
 .s01-vaso[data-i18n-label="s01-barattolo-bunda"]    { --x: 46.9%; --b: 19.4%; }
 .s01-vaso[data-i18n-label="s01-barattolo-altezza"]  { --x: 67.7%; --b: 20.9%; }
-.s01-ampolla-wrapper { height: 32.6vh; bottom: calc(43.6% - 1.5vh); }
+.s01-ampolla-wrapper { height: 23.9vh; bottom: 60.3%; right: auto; left: calc(74.2% - 23.9vh * 470 / 700 / 2); }
 
 /* b3: parole su cartellini di carta che cadono nella bacinella (niente nuvolette) */
 .s01-parola {
