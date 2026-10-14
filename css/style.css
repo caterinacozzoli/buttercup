@@ -1447,3 +1447,37 @@ html.is-deep { overflow: hidden; }
 .s01-pandeiro { height: 16vh; }
 .s01-nota { height: 8vh !important; }
 
+/* ── 14/10: posizioni di Caterina con sposta.js (misurate a 1755×851) ──
+   Barattoli in % dello scaffale (x = centro, bottom = base), così seguono lo scaffale su ogni schermo. */
+.s01-papa  { left: calc(39% - var(--parent-w) / 2); bottom: 13.3%; }
+.s01-mamma { left: calc(63.7% - var(--parent-w) / 2); bottom: 15.1%; }
+.s01-bacinella-area {
+  height: 53.7vh;
+  bottom: -1.5%;
+  right: auto;
+  margin-inline: 0;
+  left: calc(51.4% - 53.7vh * 1200 / 896 / 2);
+}
+.s01-scaffale-area { height: 100.5vh; bottom: -15.1%; left: calc(19.7% - 100.5vh * 939 / 1400 / 2); }
+.s01-vaso { --h: 15.5vh; height: var(--h); right: auto !important; left: calc(var(--x) - var(--h) * 403 / 600 / 2) !important; bottom: var(--b) !important; }
+.s01-vaso.s01-fratello { --h: 24.4vh; height: var(--h); }
+.s01-vaso[data-i18n-label="s01-barattolo-tette"]    { --x: 32.6%; --b: 62.4%; }
+.s01-vaso[data-i18n-label="s01-barattolo-ricci"]    { --x: 50.3%; --b: 62.3%; }
+.s01-vaso[data-fratello="1"]                        { --x: 35.9%; --b: 37.6%; }
+.s01-vaso[data-fratello="2"]                        { --x: 63.2%; --b: 37.8%; }
+.s01-vaso[data-i18n-label="s01-barattolo-allergie"] { --x: 27.7%; --b: 21%; }
+.s01-vaso[data-i18n-label="s01-barattolo-bunda"]    { --x: 46.9%; --b: 19.4%; }
+.s01-vaso[data-i18n-label="s01-barattolo-altezza"]  { --x: 67.7%; --b: 20.9%; }
+.s01-ampolla-wrapper { height: 32.6vh; bottom: calc(43.6% - 1.5vh); }
+
+/* linguette della barra in alto il 20% più grandi (sopra i 640px) */
+@media (min-width: 641px) {
+  .progress__tab { --th: 21.6px; --len: 67px; font-size: 0.75rem; }
+  .progress__mark[aria-current] .progress__tab { --th: 24px; --len: 84px; font-size: 0.8rem; }
+  html:not(.tips-off) .progress__mark:hover .progress__tab,
+  html:not(.tips-off) .progress__mark:focus-visible .progress__tab { height: 31px; font-size: 0.96rem; }
+  html.has-ui-etichetta-indizi:not(.tips-off) .progress__mark:hover .progress__tab,
+  html.has-ui-etichetta-indizi:not(.tips-off) .progress__mark:focus-visible .progress__tab { --bh: 31px; }
+  .controls { top: calc(var(--bar-h) + 80px); }
+}
+
